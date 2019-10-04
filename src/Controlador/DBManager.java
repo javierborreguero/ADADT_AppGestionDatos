@@ -47,6 +47,7 @@ public class DBManager implements Intercambio {
 			e.printStackTrace();
 		}
 	}
+	
 	/*
 	 * 
 	 * -----------------------------------
@@ -160,7 +161,7 @@ public class DBManager implements Intercambio {
 			while (rset.next()) {
 				for (Entry<String, Actores> entry : ver.entrySet()) {
 					if (entry.getValue().getId().equals(nuevo.getId())) {
-						//System.out.println("Id repetido");
+						// System.out.println("Id repetido");
 						return true;
 					}
 				}
@@ -209,7 +210,7 @@ public class DBManager implements Intercambio {
 			while (rset.next()) {
 				for (Entry<String, Peliculas> entry : ver.entrySet()) {
 					if (entry.getValue().getId().equals(nuevo.getId())) {
-						//System.out.println("Id repetido");
+						// System.out.println("Id repetido");
 						return true;
 					}
 				}
@@ -254,17 +255,32 @@ public class DBManager implements Intercambio {
 		}
 		return false;
 	}
+
 	@Override
 	public boolean borrarUnActor(String Id) throws IOException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean borrarUnaPelicula(String Id) throws IOException {
-		// TODO Auto-generated method stub
-		return false;
+		boolean fin = false;
+		PreparedStatement pstm;
+		try {
+			String query = "DELETE from actores Where Id = " + Id;
+			pstm = conexion.prepareStatement(query);
+			pstm.executeUpdate();
+			fin = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return fin;
 	}
 
-	
+	@Override
+	public boolean borrarUnaPelicula(String Id) throws IOException {
+		boolean fin = false;
+		PreparedStatement pstm;
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return fin;
+	}
 
 }

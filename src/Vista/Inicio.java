@@ -416,6 +416,7 @@ public class Inicio {
 			break;
 		default:
 			System.out.println("Dato mal introducido");
+			break;
 		}
 
 	}
