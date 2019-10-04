@@ -85,7 +85,7 @@ public class DBManager implements Intercambio {
 		return actoresDB;
 	}
 
-	private Peliculas crearPelicula(String id_pelicula) {
+	public Peliculas crearPelicula(String id_pelicula) {
 		Peliculas peliculasDB = new Peliculas();
 		try {
 			PreparedStatement pstm = conexion.prepareStatement("SELECT * FROM peliculas WHERE Id = " + id_pelicula);
