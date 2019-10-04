@@ -19,8 +19,16 @@ public interface Intercambio {
 	public boolean insertarActor(Actores nuevo) throws IOException;
 
 	public boolean isertarPelicula(Peliculas nuevo) throws IOException;
+
 	public boolean borrarActores() throws IOException;
+
 	public boolean borrarPeliculas() throws IOException;
+
+	public boolean borrarUnActor(String Id) throws IOException;
+
+	public boolean borrarUnaPelicula(String Id) throws IOException;
+
 	public void escribirtodosActores(HashMap<String, Actores> lista) throws IOException;
+
 	public void escribirtodasPeliculas(HashMap<String, Peliculas> lista) throws IOException;
 }

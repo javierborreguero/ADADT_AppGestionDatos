@@ -254,5 +254,17 @@ public class DBManager implements Intercambio {
 		}
 		return false;
 	}
+	@Override
+	public boolean borrarUnActor(String Id) throws IOException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean borrarUnaPelicula(String Id) throws IOException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
 
 }

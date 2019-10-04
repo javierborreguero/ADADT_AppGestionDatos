@@ -197,4 +197,48 @@ public class FileManager implements Intercambio {
 		bw.close();
 		return true;
 	}
+
+	@Override
+	public boolean borrarUnActor(String Id) throws IOException {
+		HashMap<String, Actores> ver = leerActores();
+		boolean fin = false;
+		if (ver.containsKey(Id)) {
+			ver.remove(Id);
+			escribirtodosActores(ver);
+			fin = true;
+		} else {
+			fin = false;
+		}
+		return fin;
+	}
+
+	@Override
+	public boolean borrarUnaPelicula(String Id) throws IOException {
+		HashMap<String, Peliculas> ver_peli = leerPeliculas();
+		HashMap<String, Actores> ver = leerActores();
+		boolean fin = false;
+		Actores mActores = new Actores();
+		Peliculas mPeli = new Peliculas("NULL");
+		for (Entry<String, Actores> entry : ver.entrySet()) {
+			if (entry.getValue().getPeliculas().getId().equals(Id)) {
+				mActores.setId(entry.getValue().getId());
+				mActores.setNombre(entry.getValue().getNombre());
+				mActores.setNacionalidad(entry.getValue().getNacionalidad());
+				mActores.setEdad(entry.getValue().getEdad());
+				mActores.setResidencia(entry.getValue().getResidencia());
+				mActores.setPeliculas(mPeli);
+				entry.setValue(mActores);
+			}
+		}
+		if (ver_peli.containsKey(Id)) {
+			ver_peli.remove(Id);
+			escribirtodasPeliculas(ver_peli);
+			escribirtodosActores(ver);
+			fin = true;
+		} else {
+			fin = false;
+		}
+		return fin;
+	}
+
 }

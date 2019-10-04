@@ -103,4 +103,31 @@ public class Controlador {
 
 	}
 
+	public boolean borrarUnActor(String idborrar) throws IOException {
+		if (opcionPrincipal.borrarUnActor(idborrar)) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean borrarUnaPelicula(String idborrar) throws IOException {
+		if (opcionPrincipal.borrarUnaPelicula(idborrar)) {
+			return true;
+		}
+		return false;
+	}
+
+	public HashMap<String, Peliculas> leerIdPeliculas() throws IOException {
+		HashMap<String, Peliculas> ver = opcionPrincipal.leerPeliculas();
+		return ver;
+
+	}
+
+	public HashMap<String, Actores> leerIdActores() throws IOException {
+		HashMap<String, Actores> ver = opcionPrincipal.leerActores();
+
+		return ver;
+
+	}
+
 }

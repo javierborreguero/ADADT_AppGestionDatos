@@ -25,7 +25,7 @@ public class Inicio {
 	private int exportar;
 	private int borrarTodo;
 	private int op_modificar;
-	private int borrartUno;
+	private int borrarUno;
 	private boolean opcionCorrecta;
 	private boolean salir;
 
@@ -84,8 +84,9 @@ public class Inicio {
 			System.out.println("1. Leer");
 			System.out.println("2. Añadir");
 			System.out.println("3. Importar");
-			System.out.println("4. Borrar");
-			System.out.println("5. Salir");
+			System.out.println("4. Borrar todo");
+			System.out.println("5. Borrar uno");
+			System.out.println("6. Salir");
 			opcionSecundaria = teclado.nextInt();
 			switch (opcionSecundaria) {
 			case 1:
@@ -100,8 +101,9 @@ public class Inicio {
 			case 4:
 				borrarTodo();
 				break;
-
 			case 5:
+				borrarUno();
+			case 6:
 				salir = false;
 				break;
 			default:
@@ -161,6 +163,7 @@ public class Inicio {
 				}
 				contador++;
 			}
+
 		}
 	}
 
@@ -376,6 +379,75 @@ public class Inicio {
 			System.out.println("Datos borrados correctmente");
 		} else {
 			System.out.println("No se han podido borrar los datos");
+		}
+
+	}
+
+	/*
+	 * 
+	 * MÉTODOS PARA SELECCIONAR BORRAR (UN ACTOR O UNA PELÍCULA)
+	 * 
+	 */
+
+	public void borrarUno() throws IOException {
+		teclado.nextLine();
+		System.out.println("¿Donde quieres borrar un dato?");
+		System.out.println("1. Actores");
+		System.out.println("2. Peliculas");
+		borrarUno = teclado.nextInt();
+		switch (borrarUno) {
+		case 1:
+			mostrarIdBorrarActor();
+			break;
+		case 2:
+			mostrarIdBorrarPelicula();
+			break;
+		default:
+			break;
+		}
+		teclado.nextLine();
+		idBorrar = teclado.nextLine();
+		switch (borrarUno) {
+		case 1:
+			borrarUnActor(idBorrar);
+			break;
+		case 2:
+			borrarUunaPelicula(idBorrar);
+			break;
+		default:
+			System.out.println("Dato mal introducido");
+		}
+
+	}
+
+	private void mostrarIdBorrarPelicula() throws IOException {
+		System.out.println("Escoga el id del actor que quieres borrar");
+		for (Entry<String, Peliculas> entry : miControlador.leerIdPeliculas().entrySet()) {
+			System.out.println(entry.getValue().getId() + "." + entry.getValue().getNombre() + " ");
+		}
+	}
+
+	private void mostrarIdBorrarActor() throws IOException {
+		System.out.println("Escoga el id del actor que quieres borrar");
+		for (Entry<String, Actores> entry : miControlador.leerIdActores().entrySet()) {
+			System.out.println(entry.getValue().getId() + "." + entry.getValue().getNombre() + " ");
+		}
+	}
+
+	private void borrarUunaPelicula(String idBorrar) throws IOException {
+		if (miControlador.borrarUnaPelicula(idBorrar)) {
+			System.out.println("Pelicula borrada correctamente");
+		} else {
+			System.out.println("La peliculas no se ha podido borrar");
+		}
+
+	}
+
+	private void borrarUnActor(String idBorrar) throws IOException {
+		if (miControlador.borrarUnActor(idBorrar)) {
+			System.out.println("Actor borrado correctamente");
+		} else {
+			System.out.println("El actor no se ha podido borrar");
 		}
 
 	}
