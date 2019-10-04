@@ -31,4 +31,8 @@ public interface Intercambio {
 	public void escribirtodosActores(HashMap<String, Actores> lista) throws IOException;
 
 	public void escribirtodasPeliculas(HashMap<String, Peliculas> lista) throws IOException;
+
+	public boolean modificarUnActor(String idmodificar, Actores modificar) throws IOException;
+
+	public boolean modificarUnaPelicula(String idmodificar, Peliculas modificar) throws IOException;
 }

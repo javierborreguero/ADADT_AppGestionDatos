@@ -289,4 +289,16 @@ public class DBManager implements Intercambio {
 		return fin;
 	}
 
+	@Override
+	public boolean modificarUnActor(String idmodificar, Actores modificar) throws IOException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean modificarUnaPelicula(String idmodificar, Peliculas modificar) throws IOException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -86,7 +86,8 @@ public class Inicio {
 			System.out.println("3. Importar");
 			System.out.println("4. Borrar todo");
 			System.out.println("5. Borrar uno");
-			System.out.println("6. Salir");
+			System.out.println("6. Modificar");
+			System.out.println("7. Salir");
 			opcionSecundaria = teclado.nextInt();
 			switch (opcionSecundaria) {
 			case 1:
@@ -104,6 +105,9 @@ public class Inicio {
 			case 5:
 				borrarUno();
 			case 6:
+				modificar();
+				break;
+			case 7:
 				salir = false;
 				break;
 			default:
@@ -397,10 +401,10 @@ public class Inicio {
 		borrarUno = teclado.nextInt();
 		switch (borrarUno) {
 		case 1:
-			mostrarIdBorrarActor();
+			mostrarIdActor();
 			break;
 		case 2:
-			mostrarIdBorrarPelicula();
+			mostrarIdPelicula();
 			break;
 		default:
 			break;
@@ -421,15 +425,15 @@ public class Inicio {
 
 	}
 
-	private void mostrarIdBorrarPelicula() throws IOException {
-		System.out.println("Escoga el id del actor que quieres borrar");
+	private void mostrarIdPelicula() throws IOException {
+		System.out.println("Escoga el id de la pelicula");
 		for (Entry<String, Peliculas> entry : miControlador.leerIdPeliculas().entrySet()) {
 			System.out.println(entry.getValue().getId() + "." + entry.getValue().getNombre() + " ");
 		}
 	}
 
-	private void mostrarIdBorrarActor() throws IOException {
-		System.out.println("Escoga el id del actor que quieres borrar");
+	private void mostrarIdActor() throws IOException {
+		System.out.println("Escoga el id del actor");
 		for (Entry<String, Actores> entry : miControlador.leerIdActores().entrySet()) {
 			System.out.println(entry.getValue().getId() + "." + entry.getValue().getNombre() + " ");
 		}
@@ -451,6 +455,116 @@ public class Inicio {
 			System.out.println("El actor no se ha podido borrar");
 		}
 
+	}
+
+	/*
+	 * 
+	 * MÉTODOS PARA SELECCIONAR MODIFICAR (UN ACTOR O UNA PELÍCULA)
+	 * 
+	 */
+
+	private void modificar() throws IOException {
+		teclado.nextLine();
+		modificar = null;
+		System.out.println("¿De dónde quieres modificar un dato?");
+		System.out.println("1. Actores");
+		System.out.println("2. Peliculas");
+		op_modificar = teclado.nextInt();
+		switch (op_modificar) {
+		case 1:
+			modificar = mostrarIdActorModificar();
+			break;
+		case 2:
+			modificar = mostrarIdPeliModificar();
+			break;
+		default:
+			System.out.println("Dato mal introducido");
+			break;
+		}
+//		teclado.nextLine();
+//		modificar = null;
+//		op_modificar = teclado.nextInt();
+		switch (op_modificar) {
+		case 1:
+			modificarActor();
+			break;
+		case 2:
+			modificarPelicula();
+			break;
+		default:
+			System.out.println("Dato mal introducido");
+			break;
+		}
+
+	}
+
+	/*
+	 * 
+	 * MÉTODOS PARA MODIFICAR UN ACTOR
+	 * 
+	 */
+
+	private void modificarActor() throws IOException {
+		System.out.println("Escriba el nuevo nombre del actor");
+		String nNombre = teclado.nextLine();
+		System.out.println("Escriba la nacionalidad del actor");
+		String nNacionalidad = teclado.nextLine();
+		System.out.println("Escriba la nueva edad del actor");
+		String nEdad = teclado.nextLine();
+		System.out.println("Escriba la nueva residencia del actor");
+		String nResidencia = teclado.nextLine();
+		System.out.println("El actor está asociado a una pelicula. Lea la información de las películas");
+		mostrarIdPelicula();
+		System.out.println("Escrib el id de la nueva película");
+		String nueva_peli = teclado.nextLine();
+		Peliculas peliculas = miControlador.getPeliculas().get(nueva_peli);
+		Actores actor_modificado = new Actores(modificar, nNombre, nNacionalidad, nEdad, nResidencia, peliculas);
+		if (miControlador.modificarUnActor(modificar, actor_modificado)) {
+			System.out.println("El actor ha sido odificado correctamente en " + opcionPrincipal);
+		} else {
+			System.out.println("El actor no se ha podido modificar en " + opcionPrincipal);
+		}
+	}
+
+	private String mostrarIdActorModificar() throws IOException {
+		System.out.println("En tu fichero tienes guardados los siguientes actores:");
+		mostrarIdActor();
+		teclado.nextLine();
+		System.out.println("Escriba el id del actor que quieres modificar");
+		String modificar = null;
+		modificar = teclado.nextLine();
+		return modificar;
+	}
+
+	/*
+	 * 
+	 * MÉTODOS PARA MODIFICAR UNA PELÍCULA
+	 * 
+	 */
+
+	private void modificarPelicula() throws IOException {
+		System.out.println("Escriba el nuevo nombre de la película");
+		String nNombre = teclado.nextLine();
+		System.out.println("Escriba la nueva descripción de la película");
+		String ndescripcion = teclado.nextLine();
+		Peliculas peli_modificada = new Peliculas(modificar, nNombre, ndescripcion);
+		if (miControlador.modificarUnaPelicula(modificar, peli_modificada)) {
+			System.out.println("La película ha sido modificada correctamente en " + opcionPrincipal);
+
+		} else {
+			System.out.println("La película no se ha podido modificar en " + opcionPrincipal);
+
+		}
+	}
+
+	private String mostrarIdPeliModificar() throws IOException {
+		System.out.println("En tu fichero tienes guardadoas las siguientes películas:");
+		mostrarIdPelicula();
+		teclado.nextLine();
+		System.out.println("Escriba el id de la película que quieres modificar");
+		String modificar = null;
+		modificar = teclado.nextLine();
+		return modificar;
 	}
 
 }

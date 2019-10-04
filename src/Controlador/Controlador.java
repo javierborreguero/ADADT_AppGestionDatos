@@ -9,6 +9,7 @@ import java.util.Scanner;
 import Modelo.Actores;
 import Modelo.Peliculas;
 
+
 public class Controlador {
 	// Nos treamos las varibales que nos dan la opción de eleccion en los menús
 	private Intercambio opcionPrincipal;
@@ -128,6 +129,25 @@ public class Controlador {
 
 		return ver;
 
+	}
+
+	public boolean modificarUnActor(String modificar, Actores actmodificar) throws IOException {
+		if (opcionPrincipal.modificarUnActor(modificar, actmodificar)) {
+			return true;
+		}
+		return false;
+
+	}
+
+	public boolean modificarUnaPelicula(String modificar, Peliculas reprmodificar) throws IOException {
+		if (opcionPrincipal.modificarUnaPelicula(modificar, reprmodificar)) {
+			return true;
+		}
+		return false;
+	}
+
+	public HashMap<String, Peliculas> getPeliculas() throws IOException {
+		return opcionPrincipal.leerPeliculas();
 	}
 
 }

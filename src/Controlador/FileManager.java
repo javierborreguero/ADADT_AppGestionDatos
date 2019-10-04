@@ -241,4 +241,38 @@ public class FileManager implements Intercambio {
 		return fin;
 	}
 
+	@Override
+	public boolean modificarUnActor(String idmodificar, Actores modificar) throws IOException {
+		HashMap<String, Actores> ver = leerActores();
+		boolean fin = false;
+		for (Entry<String, Actores> entry : ver.entrySet()) {
+			if (entry.getKey().contains(idmodificar)) {
+				entry.setValue(modificar);
+				fin = true;
+			}
+		}
+		if (fin) {
+			escribirtodosActores(ver);
+		}
+		return fin;
+	}
+
+	@Override
+	public boolean modificarUnaPelicula(String idmodificar, Peliculas modificar) throws IOException {
+		HashMap<String, Peliculas> ver_peli = leerPeliculas();
+		HashMap<String, Actores> ver = leerActores();
+		boolean fin = false;
+		for (Entry<String, Peliculas> entry : ver_peli.entrySet()) {
+			if (entry.getKey().equals(idmodificar)) {
+				entry.setValue(modificar);
+				fin = true;
+			}
+		}
+		if (fin) {
+			escribirtodasPeliculas(ver_peli);
+			escribirtodosActores(ver);
+		}
+		return fin;
+	}
+
 }
