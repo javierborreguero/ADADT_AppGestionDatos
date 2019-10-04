@@ -1,2 +1,10 @@
 1:vrgth:bgrht:bgrtyh6:rtgyh:1
 *
+2:ho:ho:20:ho:2
+*
+3:Liam Neeson:estadounidense:50:eeuu:5
+*
+4:Mario Casas :española:32:Madrid:4
+*
+5:Maria valverde:española:31:Barcelona:4
+*

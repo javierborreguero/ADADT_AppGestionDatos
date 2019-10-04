@@ -186,6 +186,12 @@ public class Inicio {
 
 	}
 
+	/*
+	 * 
+	 * MÉTODOS PARA SELECCIONAR AÑADIR (ACTORES O PELÍCULAS)
+	 * 
+	 */
+
 	public void aniadir() throws IOException {
 		System.out.println("¿Que quieres añadir?");
 		System.out.println("1. Actor");
@@ -193,10 +199,10 @@ public class Inicio {
 		aniadir = teclado.nextInt();
 		switch (aniadir) {
 		case 1:
-			miControlador.insertarActor();
+			insertarActor();
 			break;
 		case 2:
-			miControlador.insetarPelicula();
+			insertarPelicula();
 			break;
 		default:
 			System.out.println("Dato mal introducido");
@@ -204,14 +210,85 @@ public class Inicio {
 
 	}
 
+	/*
+	 * 
+	 * MÉTODOS PARA INSERTAR ACTORES
+	 * 
+	 */
+
+	public void insertarActor() throws IOException {
+		Scanner teclado = new Scanner(System.in);
+		// teclado.nextLine();
+		System.out.println("Introduzca el id del actor");
+		String id = teclado.nextLine();
+		System.out.println("Introduzca el nombre del actor");
+		String nombre = teclado.nextLine();
+		System.out.println("Introduzca la nacionalidad del actor");
+		String nacionalidad = teclado.nextLine();
+		System.out.println("Introduzca la edad del actor");
+		String edad = teclado.nextLine();
+		System.out.println("introduzca la residencia del actor");
+		String residencia = teclado.nextLine();
+		System.out.println("Introduzca el id de la pelicula");
+		String id_pelicula = teclado.nextLine();
+		Peliculas obj_peliculas = miControlador.escogerPelicula(id_pelicula);
+		if (obj_peliculas != null) {
+			Actores nuevo = new Actores(id, nombre, nacionalidad, edad, residencia, obj_peliculas);
+			if (miControlador.pedirdatosActores(nuevo)) {
+				System.out.println("Actor añadido correctamente");
+			} else {
+				System.out.println("El actor no se ha podido añadir");
+			}
+		} else {
+			System.out.println("No se ha encontrado ningún actor");
+		}
+	}
+
+	/*
+	 * 
+	 * MÉTODOS PARA INSERTAR PELÍCULAS
+	 * 
+	 */
+
+	public void insertarPelicula() throws IOException {
+		Scanner teclado = new Scanner(System.in);
+		System.out.println("Introduzca el id de la pelicula");
+		String id = teclado.nextLine();
+		System.out.println("Introduzca el nombre de la pelicula");
+		String nombre = teclado.nextLine();
+		System.out.println("Introduzca la descripcion de la pelicula");
+		String descripcion = teclado.nextLine();
+		Peliculas nuevo = new Peliculas(id, nombre, descripcion);
+		if (miControlador.pedirdatosPeliculas(nuevo)) {
+			System.out.println("Pelicula añadida correctamente");
+		} else {
+			System.out.println("La pelicula no se ha podid añadir");
+		}
+	}
+
 	public void importar(int aux) throws IOException {
 
-		importar = teclado.nextInt();
 		if (acceso == 1) {
-			System.out.println("¿Donde quieres importar los datos");
-			System.out.println("1. Fichero");
+			System.out.println("¿De dónde quieres copiar los datos?");
+			System.out.println("2. Base de datos");
+			importar = teclado.nextInt();
 			switch (importar) {
 
+			case 1:
+				// importarFicheros(importar);
+				break;
+			case 2:
+				importarDB(importar);
+				break;
+			default:
+				System.out.println("Dato mal introducido");
+			}
+		}
+		if (acceso == 2) {
+			System.out.println("¿De dónde quieres copiar los datos?");
+			System.out.println("1. Ficheros");
+			importar = teclado.nextInt();
+			switch (importar) {
 			case 1:
 				importarFicheros(importar);
 				break;
@@ -224,11 +301,27 @@ public class Inicio {
 		}
 	}
 
-	private void importarFicheros(int importar) throws IOException {
-		if (acceso == 1) {
-			System.out.println("No puedes copiar loa datos del fichero en el fichero");
-		} else if (acceso == 2) {
+	public void importarFicheros(int importar) throws IOException {
+		if (acceso == 2) {
 			miControlador.importar(importar);
+			if (miControlador.importar(importar)) {
+				System.out.println("Datos copiados correctamente");
+			} else {
+				System.out.println("No se han podido copiar los datos");
+			}
+		}
+
+	}
+
+	public void importarDB(int importar) throws IOException {
+		if (acceso == 1) {
+			miControlador.importar(importar);
+			if (miControlador.importar(importar)) {
+				System.out.println("Datos copiados correctamente");
+			} else {
+				System.out.println("No se han podido copiar los datos");
+			}
+
 		}
 
 	}

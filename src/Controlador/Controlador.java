@@ -30,7 +30,6 @@ public class Controlador {
 
 	public HashMap<String, Actores> leerActores() throws IOException {
 		HashMap<String, Actores> ver = opcionPrincipal.leerActores();
-
 		return ver;
 
 	}
@@ -57,34 +56,7 @@ public class Controlador {
 		return elegirPelicula;
 	}
 
-	public void insertarActor() throws IOException {
-		Scanner teclado = new Scanner(System.in);
-		// teclado.nextLine();
-		System.out.println("Introduzca el id del actor");
-		String id = teclado.nextLine();
-		System.out.println("Introduzca el nombre del actor");
-		String nombre = teclado.nextLine();
-		System.out.println("Introduzca la nacionalidad del actor");
-		String nacionalidad = teclado.nextLine();
-		System.out.println("Introduzca la edad del actor");
-		String edad = teclado.nextLine();
-		System.out.println("introduzca la residencia del actor");
-		String residencia = teclado.nextLine();
-		System.out.println("Introduzca el id de la pelicula");
-		String id_pelicula = teclado.nextLine();
-		Peliculas obj_peliculas = escogerPelicula(id_pelicula);
-		if (obj_peliculas != null) {
-			Actores nuevo = new Actores(id, nombre, nacionalidad, edad, residencia, obj_peliculas);
-			if (pedirdatosActores(nuevo)) {
-				System.out.println("Actor añadido correctamente");
-			} else {
-				System.out.println("El actor no se ha podido añadir");
-			}
-		} else {
-			System.out.println("No se ha encontrado ningún actor");
-		}
-
-	}
+	
 
 	public boolean pedirdatosActores(Actores nuevo) throws IOException {
 		if (opcionPrincipal.insertarActor(nuevo)) {
@@ -94,19 +66,7 @@ public class Controlador {
 	}
 
 	public void insetarPelicula() throws IOException {
-		Scanner teclado = new Scanner(System.in);
-		System.out.println("Introduzca el id de la pelicula");
-		String id = teclado.nextLine();
-		System.out.println("Introduzca el nombre de la pelicula");
-		String nombre = teclado.nextLine();
-		System.out.println("Introduzca la descripcion de la pelicula");
-		String descripcion = teclado.nextLine();
-		Peliculas nuevo = new Peliculas(id, nombre, descripcion);
-		if (pedirdatosPeliculas(nuevo)) {
-			System.out.println("Pelicula añadida correctamente");
-		} else {
-			System.out.println("La pelicula no se ha podid añadir");
-		}
+		
 
 	}
 
@@ -128,7 +88,7 @@ public class Controlador {
 		System.out.println("Datos borrados correctamente");
 	}
 
-	public void importar(int importar) throws IOException {
+	public boolean importar(int importar) throws IOException {
 		if (importar == 1) {
 			opcionSecundaria = new FileManager();
 			HashMap<String, Actores> leer_actores = opcionSecundaria.leerActores();
@@ -142,6 +102,7 @@ public class Controlador {
 			opcionPrincipal.escribirtodasPeliculas(leer_peliculas);
 			opcionPrincipal.escribirtodosActores(leer_actores);
 		}
+		return true;
 
 	}
 
