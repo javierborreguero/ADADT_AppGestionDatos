@@ -6,5 +6,3 @@
 *
 4:Mario Casas :española:32:Madrid:4
 *
-5:Maria valverde:española:31:Barcelona:4
-*

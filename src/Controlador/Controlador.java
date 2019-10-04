@@ -56,8 +56,6 @@ public class Controlador {
 		return elegirPelicula;
 	}
 
-	
-
 	public boolean pedirdatosActores(Actores nuevo) throws IOException {
 		if (opcionPrincipal.insertarActor(nuevo)) {
 			return true;
@@ -66,7 +64,6 @@ public class Controlador {
 	}
 
 	public void insetarPelicula() throws IOException {
-		
 
 	}
 
@@ -79,13 +76,13 @@ public class Controlador {
 
 	public boolean borrarActores() throws IOException {
 		opcionPrincipal.borrarActores();
-		System.out.println("Datos borrados correctmente");
+
 		return true;
 	}
 
-	public void borrarPeliculas() throws IOException {
+	public boolean borrarPeliculas() throws IOException {
 		opcionPrincipal.borrarPeliculas();
-		System.out.println("Datos borrados correctamente");
+		return true;
 	}
 
 	public boolean importar(int importar) throws IOException {

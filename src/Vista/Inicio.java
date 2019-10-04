@@ -326,6 +326,12 @@ public class Inicio {
 
 	}
 
+	/*
+	 * 
+	 * MÉTODOS PARA SELECCIONAR BORRAR (ACTORES O PELÍCULAS)
+	 * 
+	 */
+
 	public void borrarTodo() throws IOException {
 		System.out.println("¿Donde quieres borrar todos los datos?");
 		System.out.println("1. Actores");
@@ -344,13 +350,33 @@ public class Inicio {
 
 	}
 
+	/*
+	 * 
+	 * MÉTODOS PARA BORRAR ACTORES
+	 * 
+	 */
+
 	public void borrarTodosActores() throws IOException {
-		miControlador.borrarActores();
+		if (miControlador.borrarActores()) {
+			System.out.println("Datos borrados correctmente");
+		} else {
+			System.out.println("No se han podido borrar los datos");
+		}
 
 	}
 
+	/*
+	 * 
+	 * MÉTODOS PARA BORRAR PELICULAS
+	 * 
+	 */
+
 	public void borrarTodasPeliculas() throws IOException {
-		miControlador.borrarPeliculas();
+		if (miControlador.borrarPeliculas()) {
+			System.out.println("Datos borrados correctmente");
+		} else {
+			System.out.println("No se han podido borrar los datos");
+		}
 
 	}
 
