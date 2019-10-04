@@ -291,13 +291,50 @@ public class DBManager implements Intercambio {
 
 	@Override
 	public boolean modificarUnActor(String idmodificar, Actores modificar) throws IOException {
-		// TODO Auto-generated method stub
+		HashMap<String, Actores> ver = leerActores();
+		PreparedStatement pstm;
+		for (Entry<String, Actores> entry : ver.entrySet()) {
+			if (entry.getKey().contains(idmodificar)) {
+				try {
+					pstm = conexion.prepareStatement("UPDATE actores SET " + "Nombre = ?" + ",Pelicula = ?"
+							+ ",Nacionalidad = ?" + ",Edad = ?" + ",Residencia = ?" + "WHERE Id=?");
+					pstm.setString(1, modificar.getNombre());
+					pstm.setString(2, modificar.getPeliculas().getId());
+					pstm.setString(3, modificar.getNacionalidad());
+					pstm.setString(4, modificar.getEdad());
+					pstm.setString(5, modificar.getResidencia());
+					pstm.setString(6, idmodificar);
+					pstm.executeUpdate();
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return true;
+
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean modificarUnaPelicula(String idmodificar, Peliculas modificar) throws IOException {
-		// TODO Auto-generated method stub
+		HashMap<String, Peliculas> ver = leerPeliculas();
+		PreparedStatement pstm;
+		for (Entry<String, Peliculas> entry : ver.entrySet()) {
+			if (entry.getKey().contains(idmodificar)) {
+				try {
+					pstm = conexion.prepareStatement(
+							"UPDATE peliculas SET " + "Nombre = ?" + ",Descripcion = ?" + "WHERE Id=?");
+					pstm.setString(1, modificar.getNombre());
+					pstm.setString(2, modificar.getDescripcion());
+					pstm.setString(3, idmodificar);
+					pstm.executeUpdate();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return true;
+			}
+		}
 		return false;
 	}
 
