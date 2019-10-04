@@ -87,6 +87,7 @@ public class Inicio {
 			System.out.println("4. Borrar todo");
 			System.out.println("5. Borrar uno");
 			System.out.println("6. Modificar");
+			System.out.println("7. Seleccionar un dato");
 			System.out.println("7. Salir");
 			opcionSecundaria = teclado.nextInt();
 			switch (opcionSecundaria) {
@@ -108,6 +109,9 @@ public class Inicio {
 				modificar();
 				break;
 			case 7:
+				//seleccionarUno();
+				break;
+			case 8:
 				salir = false;
 				break;
 			default:
@@ -425,21 +429,21 @@ public class Inicio {
 
 	}
 
-	private void mostrarIdPelicula() throws IOException {
+	public void mostrarIdPelicula() throws IOException {
 		System.out.println("Escoga el id de la pelicula");
 		for (Entry<String, Peliculas> entry : miControlador.leerIdPeliculas().entrySet()) {
 			System.out.println(entry.getValue().getId() + "." + entry.getValue().getNombre() + " ");
 		}
 	}
 
-	private void mostrarIdActor() throws IOException {
+	public void mostrarIdActor() throws IOException {
 		System.out.println("Escoga el id del actor");
 		for (Entry<String, Actores> entry : miControlador.leerIdActores().entrySet()) {
 			System.out.println(entry.getValue().getId() + "." + entry.getValue().getNombre() + " ");
 		}
 	}
 
-	private void borrarUunaPelicula(String idBorrar) throws IOException {
+	public void borrarUunaPelicula(String idBorrar) throws IOException {
 		if (miControlador.borrarUnaPelicula(idBorrar)) {
 			System.out.println("Pelicula borrada correctamente");
 		} else {
@@ -448,7 +452,7 @@ public class Inicio {
 
 	}
 
-	private void borrarUnActor(String idBorrar) throws IOException {
+	public void borrarUnActor(String idBorrar) throws IOException {
 		if (miControlador.borrarUnActor(idBorrar)) {
 			System.out.println("Actor borrado correctamente");
 		} else {
@@ -463,7 +467,7 @@ public class Inicio {
 	 * 
 	 */
 
-	private void modificar() throws IOException {
+	public void modificar() throws IOException {
 		teclado.nextLine();
 		modificar = null;
 		System.out.println("¿De dónde quieres modificar un dato?");
@@ -504,7 +508,7 @@ public class Inicio {
 	 * 
 	 */
 
-	private void modificarActor() throws IOException {
+	public void modificarActor() throws IOException {
 		System.out.println("Escriba el nuevo nombre del actor");
 		String nNombre = teclado.nextLine();
 		System.out.println("Escriba la nacionalidad del actor");
@@ -526,7 +530,7 @@ public class Inicio {
 		}
 	}
 
-	private String mostrarIdActorModificar() throws IOException {
+	public String mostrarIdActorModificar() throws IOException {
 		System.out.println("En tu fichero tienes guardados los siguientes actores:");
 		mostrarIdActor();
 		teclado.nextLine();
@@ -542,7 +546,7 @@ public class Inicio {
 	 * 
 	 */
 
-	private void modificarPelicula() throws IOException {
+	public void modificarPelicula() throws IOException {
 		System.out.println("Escriba el nuevo nombre de la película");
 		String nNombre = teclado.nextLine();
 		System.out.println("Escriba la nueva descripción de la película");
@@ -557,7 +561,7 @@ public class Inicio {
 		}
 	}
 
-	private String mostrarIdPeliModificar() throws IOException {
+	public String mostrarIdPeliModificar() throws IOException {
 		System.out.println("En tu fichero tienes guardadoas las siguientes películas:");
 		mostrarIdPelicula();
 		teclado.nextLine();
