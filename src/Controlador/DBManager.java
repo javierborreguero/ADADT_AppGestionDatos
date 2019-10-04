@@ -47,7 +47,7 @@ public class DBManager implements Intercambio {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/*
 	 * 
 	 * -----------------------------------
@@ -276,9 +276,15 @@ public class DBManager implements Intercambio {
 		boolean fin = false;
 		PreparedStatement pstm;
 		try {
-			
-		} catch (Exception e) {
-			// TODO: handle exception
+			String query = "UPDATE actores SET " + "Pelicula = NULL " + "WHERE Pelicula = " + Id;
+			String query2 = "Delete from peliculas Where Id = " + Id;
+			pstm = conexion.prepareStatement(query);
+			pstm.executeUpdate();
+			pstm = conexion.prepareStatement(query2);
+			pstm.executeUpdate();
+			fin = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return fin;
 	}

@@ -4,5 +4,3 @@
 *
 3:Liam Neeson:estadounidense:50:eeuu:5
 *
-4:Mario Casas :española:32:Madrid:4
-*
