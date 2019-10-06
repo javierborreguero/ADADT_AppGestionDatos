@@ -88,7 +88,7 @@ public class Inicio {
 			System.out.println("5. Borrar uno");
 			System.out.println("6. Modificar");
 			System.out.println("7. Seleccionar un dato");
-			System.out.println("7. Salir");
+			System.out.println("8. Salir");
 			opcionSecundaria = teclado.nextInt();
 			switch (opcionSecundaria) {
 			case 1:
