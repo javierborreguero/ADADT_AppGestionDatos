@@ -57,6 +57,7 @@ public class Inicio {
 			System.out.println("¿Que opción quieres utilizar?");
 			System.out.println("1. Fichero");
 			System.out.println("2. Base de datos");
+			System.out.println("3. Hibernate");
 			acceso = teclado.nextInt();
 			switch (acceso) {
 			case 1:
@@ -66,6 +67,11 @@ public class Inicio {
 				break;
 			case 2:
 				opcionPrincipal = "Base de datos";
+				miControlador.elegiarOpcion(acceso);
+				opcionCorrecta = false;
+				break;
+			case 3:
+				opcionPrincipal = "Hibernate";
 				miControlador.elegiarOpcion(acceso);
 				opcionCorrecta = false;
 				break;
@@ -109,7 +115,7 @@ public class Inicio {
 				modificar();
 				break;
 			case 7:
-				//seleccionarUno();
+				// seleccionarUno();
 				break;
 			case 8:
 				salir = false;

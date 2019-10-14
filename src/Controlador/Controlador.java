@@ -26,6 +26,8 @@ public class Controlador {
 			opcionPrincipal = new FileManager();
 		} else if (acceso == 2) {
 			opcionPrincipal = new DBManager(FicheroConfiguracionDB);
+		} else if(acceso == 3) {
+			opcionPrincipal = new HibernateManager();
 		}
 	}
 
