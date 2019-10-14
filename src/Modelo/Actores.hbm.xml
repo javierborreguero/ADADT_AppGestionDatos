@@ -13,7 +13,7 @@
 		<property name="nombre" type="string">
 			<column name="Nombre" length="200" not-null="true" />
 		</property>
-		<many-to-one name="peliculas" column="Peliculas"
+		<many-to-one name="peliculas" column="Pelicula"
 			not-null="false" />
 		<property name="nacionalidad" type="string">
 			<column name="Nacionalidad" length="2000" not-null="true" />

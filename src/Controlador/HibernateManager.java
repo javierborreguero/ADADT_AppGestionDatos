@@ -3,39 +3,72 @@ package Controlador;
 import java.io.IOException;
 import java.util.HashMap;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+
+import org.hibernate.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import Modelo.Actores;
 import Modelo.Peliculas;
 
 public class HibernateManager implements Intercambio {
+	// Creación de las variables para crear la conexión
 	private SessionFactory sessionFactory;
 	private Session s;
+
+//Constructor en el que se crea y se establece la conexión
 	public HibernateManager() {
 		try {
+			// Se establece la conexión
 			sessionFactory = new Configuration().configure().buildSessionFactory();
 			s = sessionFactory.openSession();
 			System.out.println("Conexion establecida con Hibernate");
 
-		} catch (Throwable ex) {
-			System.err.println("Initial SessionFactory creation failed." + ex);
-			ex.printStackTrace();
-			throw new ExceptionInInitializerError(ex);
+		} catch (Throwable e) {
+			System.err.println("Initial SessionFactory creation failed." + e);
+			e.printStackTrace();
+			throw new ExceptionInInitializerError(e);
 		}
 	}
 
 	@Override
 	public HashMap<String, Actores> leerActores() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		HashMap<String, Actores> leerActores = new HashMap<String, Actores>();
+		Query q = s.createQuery("select e from Actores e");
+		List results = q.list();
+		Iterator iterator = results.iterator();
+		Peliculas mPeliculas;
+		while (iterator.hasNext()) {
+			Actores mActores = (Actores) iterator.next();
+			if (mActores.getPeliculas() == null) {
+				mPeliculas = new Peliculas("null");
+				mActores.setPeliculas(mPeliculas);
+				leerActores.put(mActores.getId(), mActores);
+			} else {
+				leerActores.put(mActores.getId(), mActores);
+			}
+		}
+		return leerActores;
 	}
 
 	@Override
 	public HashMap<String, Peliculas> leerPeliculas() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		HashMap<String, Peliculas> leerPeliculas = new HashMap<String, Peliculas>();
+		Query q = s.createQuery("select e from Actores e");
+		List results = q.list();
+		Iterator iterator = results.iterator();
+		while (iterator.hasNext()) {
+			Peliculas mPeliculas = (Peliculas) iterator.next();
+			leerPeliculas.put(mPeliculas.getId(), mPeliculas);
+		}
+		return leerPeliculas;
 	}
 
 	@Override
