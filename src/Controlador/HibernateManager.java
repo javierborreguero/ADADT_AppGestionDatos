@@ -3,10 +3,28 @@ package Controlador;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import Modelo.Actores;
 import Modelo.Peliculas;
 
 public class HibernateManager implements Intercambio {
+	private SessionFactory sessionFactory;
+	private Session s;
+	public HibernateManager() {
+		try {
+			sessionFactory = new Configuration().configure().buildSessionFactory();
+			s = sessionFactory.openSession();
+			System.out.println("Conexion establecida con Hibernate");
+
+		} catch (Throwable ex) {
+			System.err.println("Initial SessionFactory creation failed." + ex);
+			ex.printStackTrace();
+			throw new ExceptionInInitializerError(ex);
+		}
+	}
 
 	@Override
 	public HashMap<String, Actores> leerActores() throws IOException {
@@ -71,13 +89,13 @@ public class HibernateManager implements Intercambio {
 	@Override
 	public void escribirtodosActores(HashMap<String, Actores> lista) throws IOException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void escribirtodasPeliculas(HashMap<String, Peliculas> lista) throws IOException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

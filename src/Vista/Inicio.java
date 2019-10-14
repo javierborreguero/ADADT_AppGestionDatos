@@ -71,7 +71,7 @@ public class Inicio {
 				opcionCorrecta = false;
 				break;
 			case 3:
-				opcionPrincipal = "Hibernate";
+				opcionPrincipal = "hibernate";
 				miControlador.elegiarOpcion(acceso);
 				opcionCorrecta = false;
 				break;
