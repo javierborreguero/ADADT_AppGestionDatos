@@ -61,7 +61,7 @@ public class HibernateManager implements Intercambio {
 	@Override
 	public HashMap<String, Peliculas> leerPeliculas() throws IOException {
 		HashMap<String, Peliculas> leerPeliculas = new HashMap<String, Peliculas>();
-		Query q = s.createQuery("select e from Actores e");
+		Query q = s.createQuery("select e from Peliculas e");
 		List results = q.list();
 		Iterator iterator = results.iterator();
 		while (iterator.hasNext()) {
