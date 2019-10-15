@@ -188,8 +188,29 @@ public class HibernateManager implements Intercambio {
 
 	@Override
 	public boolean borrarUnaPelicula(String Id) throws IOException {
-		// TODO Auto-generated method stub
-		return false;
+		boolean fin = false;
+		Actores mActor = new Actores();
+		HashMap<String, Actores> ver = leerActores();
+		for (Entry<String, Actores> entry : ver.entrySet()) {
+			if (entry.getValue().getPeliculas().equals(Id)) {
+				mActor = entry.getValue();
+				mActor.setPeliculas(null);
+				s.beginTransaction();
+				s.update(mActor);
+
+			}
+		}
+		Peliculas mPeliculas = new Peliculas();
+		HashMap<String, Peliculas> verPelicula = leerPeliculas();
+		for (Entry<String, Peliculas> entry : verPelicula.entrySet()) {
+			if (entry.getValue().getId().equals(Id)) {
+				mPeliculas = entry.getValue();
+				s.delete(mPeliculas);
+				s.getTransaction().commit();
+				fin = true;
+			}
+		}
+		return fin;
 	}
 
 	@Override
