@@ -113,17 +113,31 @@ public class HibernateManager implements Intercambio {
 	}
 
 	@Override
-
-	public boolean comprobarIdPeli(Peliculas nuevo) throws IOException {
-		// TODO Auto-generated method stub
+	public boolean isertarPelicula(Peliculas nuevo) throws IOException {
+		if (comprobarIdPeli(nuevo)) {
+			s.beginTransaction();
+			s.save(nuevo);
+			s.getTransaction().commit();
+			return true;
+		}
 		return false;
 	}
 
 	@Override
-	public boolean isertarPelicula(Peliculas nuevo) throws IOException {
-		// TODO Auto-generated method stub
+
+	public boolean comprobarIdPeli(Peliculas nuevo) throws IOException {
+		Peliculas mPeliculas = nuevo;
+		try {
+			mPeliculas = (Peliculas) s.get(Peliculas.class, mPeliculas.getId());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		if (mPeliculas == null) {
+			return true;
+		}
 		return false;
 	}
+
 	/*
 	 * 
 	 * -----------------------------------
