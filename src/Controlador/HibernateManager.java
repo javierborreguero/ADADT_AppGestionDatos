@@ -159,8 +159,14 @@ public class HibernateManager implements Intercambio {
 
 	@Override
 	public boolean borrarPeliculas() throws IOException {
-		// TODO Auto-generated method stub
-		return false;
+		borrarActores();
+		s.beginTransaction();
+		String query = "DELETE FROM Peliculas";
+		Query mQuery = s.createQuery(query);
+		mQuery.executeUpdate();
+		s.getTransaction().commit();
+		return true;
+
 	}
 
 	@Override
