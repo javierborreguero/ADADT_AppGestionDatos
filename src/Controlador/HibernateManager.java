@@ -38,7 +38,15 @@ public class HibernateManager implements Intercambio {
 		}
 	}
 
-	@Override
+	/*
+	 * 
+	 * -----------------------------------
+	 * 
+	 * MÉTODOS DE LECTURA
+	 * 
+	 * ----------------------------------
+	 */
+
 	public HashMap<String, Actores> leerActores() throws IOException {
 		HashMap<String, Actores> leerActores = new HashMap<String, Actores>();
 		Query q = s.createQuery("select e from Actores e");
@@ -70,21 +78,43 @@ public class HibernateManager implements Intercambio {
 		}
 		return leerPeliculas;
 	}
+	/*
+	 * 
+	 * -----------------------------------
+	 * 
+	 * MÉTODOS DE ESCRITURA
+	 * 
+	 * ----------------------------------
+	 */
 
 	@Override
-	public boolean comprobarIdPeli(Peliculas nuevo) throws IOException {
-		// TODO Auto-generated method stub
+	public boolean insertarActor(Actores nuevo) throws IOException {
+		if (comprobarIdActor(nuevo)) {
+			s.beginTransaction();
+			s.save(nuevo);
+			s.getTransaction().commit();
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean comprobarIdActor(Actores nuevo) throws IOException {
-		// TODO Auto-generated method stub
+		Actores mActores = nuevo;
+		try {
+			mActores = (Actores) s.get(Actores.class, mActores.getId());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		if (mActores == null) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
-	public boolean insertarActor(Actores nuevo) throws IOException {
+
+	public boolean comprobarIdPeli(Peliculas nuevo) throws IOException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -94,6 +124,14 @@ public class HibernateManager implements Intercambio {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	/*
+	 * 
+	 * -----------------------------------
+	 * 
+	 * MÉTODOS DE BORRADO
+	 * 
+	 * ----------------------------------
+	 */
 
 	@Override
 	public boolean borrarActores() throws IOException {
@@ -130,6 +168,14 @@ public class HibernateManager implements Intercambio {
 		// TODO Auto-generated method stub
 
 	}
+	/*
+	 * 
+	 * -----------------------------------
+	 * 
+	 * MÉTODOS DE MODIFICAR
+	 * 
+	 * ----------------------------------
+	 */
 
 	@Override
 	public boolean modificarUnActor(String idmodificar, Actores modificar) throws IOException {
