@@ -171,8 +171,19 @@ public class HibernateManager implements Intercambio {
 
 	@Override
 	public boolean borrarUnActor(String Id) throws IOException {
-		// TODO Auto-generated method stub
-		return false;
+		boolean fin = false;
+		Actores mActor = new Actores();
+		HashMap<String, Actores> ver = leerActores();
+		for (Entry<String, Actores> entry : ver.entrySet()) {
+			if (entry.getValue().getId().equals(Id)) {
+				mActor = entry.getValue();
+				s.beginTransaction();
+				s.delete(mActor);
+				s.getTransaction().commit();
+				fin = true;
+			}
+		}
+		return fin;
 	}
 
 	@Override
