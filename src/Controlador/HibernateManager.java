@@ -149,8 +149,12 @@ public class HibernateManager implements Intercambio {
 
 	@Override
 	public boolean borrarActores() throws IOException {
-		// TODO Auto-generated method stub
-		return false;
+		s.beginTransaction();
+		String query = "DELETE FROM Actores";
+		Query mQuery = s.createQuery(query);
+		mQuery.executeUpdate();
+		s.getTransaction().commit();
+		return true;
 	}
 
 	@Override
@@ -173,13 +177,19 @@ public class HibernateManager implements Intercambio {
 
 	@Override
 	public void escribirtodosActores(HashMap<String, Actores> lista) throws IOException {
-		// TODO Auto-generated method stub
+		borrarActores();
+		for (Entry<String, Actores> entry : lista.entrySet()) {
+			insertarActor(lista.get(entry.getKey()));
+		}
 
 	}
 
 	@Override
 	public void escribirtodasPeliculas(HashMap<String, Peliculas> lista) throws IOException {
-		// TODO Auto-generated method stub
+		borrarPeliculas();
+		for (Entry<String, Peliculas> entry : lista.entrySet()) {
+			isertarPelicula(lista.get(entry.getKey()));
+		}
 
 	}
 	/*
