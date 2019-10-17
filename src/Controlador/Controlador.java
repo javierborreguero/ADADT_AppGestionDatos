@@ -9,7 +9,6 @@ import java.util.Scanner;
 import Modelo.Actores;
 import Modelo.Peliculas;
 
-
 public class Controlador {
 	// Nos treamos las varibales que nos dan la opción de eleccion en los menús
 	private Intercambio opcionPrincipal;
@@ -26,7 +25,7 @@ public class Controlador {
 			opcionPrincipal = new FileManager();
 		} else if (acceso == 2) {
 			opcionPrincipal = new DBManager(FicheroConfiguracionDB);
-		} else if(acceso == 3) {
+		} else if (acceso == 3) {
 			opcionPrincipal = new HibernateManager();
 		}
 	}
@@ -97,6 +96,12 @@ public class Controlador {
 			opcionPrincipal.escribirtodosActores(leer_actores);
 		} else if (importar == 2) {
 			opcionSecundaria = new DBManager(FicheroConfiguracionDB);
+			HashMap<String, Actores> leer_actores = opcionSecundaria.leerActores();
+			HashMap<String, Peliculas> leer_peliculas = opcionSecundaria.leerPeliculas();
+			opcionPrincipal.escribirtodasPeliculas(leer_peliculas);
+			opcionPrincipal.escribirtodosActores(leer_actores);
+		} else if (importar == 3) {
+			opcionSecundaria = new HibernateManager();
 			HashMap<String, Actores> leer_actores = opcionSecundaria.leerActores();
 			HashMap<String, Peliculas> leer_peliculas = opcionSecundaria.leerPeliculas();
 			opcionPrincipal.escribirtodasPeliculas(leer_peliculas);
