@@ -241,8 +241,20 @@ public class HibernateManager implements Intercambio {
 
 	@Override
 	public boolean modificarUnActor(String idmodificar, Actores modificar) throws IOException {
-		// TODO Auto-generated method stub
-		return false;
+		boolean fin = false;
+		s.beginTransaction();
+		Actores mActores = (Actores) s.get(Actores.class, idmodificar);
+		mActores.setId(idmodificar);
+		mActores.setNombre(modificar.getNombre());
+		mActores.setPeliculas(modificar.getPeliculas());
+		mActores.setNacionalidad(modificar.getNacionalidad());
+		mActores.setEdad(modificar.getEdad());
+		mActores.setResidencia(modificar.getResidencia());
+		s.update(mActores);
+		fin = true;
+		s.getTransaction().commit();
+
+		return fin;
 	}
 
 	@Override
