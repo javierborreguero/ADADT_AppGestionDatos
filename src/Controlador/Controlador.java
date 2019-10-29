@@ -14,6 +14,7 @@ public class Controlador {
 	private Intercambio opcionPrincipal;
 	private Intercambio opcionSecundaria;
 	private String FicheroConfiguracionDB;
+	private String FicheroConfiguracionMongo;
 
 	public Controlador() {
 		FicheroConfiguracionDB = "FicherosConfiguracion/ConfiguracionDB.ini";
@@ -27,6 +28,8 @@ public class Controlador {
 			opcionPrincipal = new DBManager(FicheroConfiguracionDB);
 		} else if (acceso == 3) {
 			opcionPrincipal = new HibernateManager();
+		}else if(acceso == 4) {
+			opcionPrincipal = new MongoManager();
 		}
 	}
 
