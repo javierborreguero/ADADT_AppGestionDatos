@@ -191,27 +191,26 @@ public class Inicio {
 						System.out.println("Pelicula: " + entry.getValue().getPeliculas().getNombre());
 
 					}
-					if (acceso == 3) {
-						if (entry.getValue().getPeliculas().getId().equals("null")) {
-							System.out.println("No tiene ninguna pelicula asignada");
-						} else {
-							System.out.println("Pelicula: " + entry.getValue().getPeliculas().getId());
 
-						}
-						if (acceso == 4) {
-							if (entry.getValue().getPeliculas().getId().equals("null")) {
-								System.out.println("No tiene ninguna pelicula asignada");
-							} else {
-								System.out.println("Pelicula: " + entry.getValue().getPeliculas().getId());
-
-							}
-						}
+				}
+				if (acceso == 3) {
+					if (entry.getValue().getPeliculas().getId().equals("null")) {
+						System.out.println("No tiene ninguna pelicula asignada");
+					} else {
+						System.out.println("Pelicula: " + entry.getValue().getPeliculas().getId());
 
 					}
-					contador++;
-					System.out.println("-------------------------------- \n");
 				}
+				if (acceso == 4) {
+					if (entry.getValue().getPeliculas().getId().equals("null")) {
+						System.out.println("No tiene ninguna pelicula asignada");
+					} else {
+						System.out.println("Pelicula: " + entry.getValue().getPeliculas().getId());
 
+					}
+				}
+				contador++;
+				System.out.println("-------------------------------- \n");
 			}
 		}
 	}
