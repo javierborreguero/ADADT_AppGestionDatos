@@ -170,7 +170,7 @@ public class Inicio {
 			System.out.println("No existen actores");
 		} else {
 			for (Entry<String, Actores> entry : miControlador.leerActores().entrySet()) {
-				System.out.println("---- Actor " + contador + " ----");
+				System.out.println("----------- Actor " + contador + " -----------");
 				System.out.println("Id: " + entry.getValue().getId());
 				System.out.println("Nombre: " + entry.getValue().getNombre());
 				System.out.println("Nacionalidad: " + entry.getValue().getNacionalidad());
@@ -182,6 +182,7 @@ public class Inicio {
 					System.out.println("Pelicula: " + entry.getValue().getPeliculas().getId());
 				}
 				contador++;
+				System.out.println("-------------------------------- \n");
 			}
 
 		}
@@ -199,11 +200,12 @@ public class Inicio {
 			System.out.println("No existen peliculas");
 		} else {
 			for (Entry<String, Peliculas> entry : miControlador.leerPeliculas().entrySet()) {
-				System.out.println("---- Pelicula " + contador + " ----");
+				System.out.println("---------- Pelicula " + contador + " -----------");
 				System.out.println("Id: " + entry.getValue().getId());
 				System.out.println("Nombre: " + entry.getValue().getNombre());
 				System.out.println("Descripcion: " + entry.getValue().getDescripcion());
 				contador++;
+				System.out.println("-------------------------------- \n");
 			}
 		}
 
