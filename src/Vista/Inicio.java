@@ -99,7 +99,7 @@ public class Inicio {
 			System.out.println("4. Borrar todo");
 			System.out.println("5. Borrar uno");
 			System.out.println("6. Modificar");
-			System.out.println("7. Seleccionar un dato");
+			System.out.println("7. Volver al menú principal");
 			System.out.println("8. Salir");
 			opcionSecundaria = teclado.nextInt();
 			switch (opcionSecundaria) {
@@ -121,7 +121,7 @@ public class Inicio {
 				modificar();
 				break;
 			case 7:
-				// seleccionarUno();
+				menuOpciones();
 				break;
 			case 8:
 				salir = false;

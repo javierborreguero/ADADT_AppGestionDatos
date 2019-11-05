@@ -63,7 +63,10 @@ public class MongoManager implements Intercambio {
 			edad = document.get("edad").toString();
 			residencia = document.get("residencia").toString();
 			mActores = new Actores(idActor, nombre, nacionalidad, edad, residencia);
-			actores.put(idActor, mActores);
+			if (!obj.get("pelicula").equals("null")) {
+				actores.put(idActor, mActores);
+			}
+
 		}
 		return actores;
 	}
