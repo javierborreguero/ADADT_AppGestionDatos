@@ -7,16 +7,17 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import org.bson.Document;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.util.JSON;
 
-
 import Modelo.Actores;
 import Modelo.Peliculas;
-
 
 public class MongoManager implements Intercambio {
 	private String IP;
@@ -53,7 +54,9 @@ public class MongoManager implements Intercambio {
 		String residencia = null;
 		String idPelicula = null;
 		JSONObject obj;
+		JSONArray arr;
 		for (Document document : collectionActores.find()) {
+			obj = (JSONObject) JSONValue.parse(document.toJson().toString());
 			idActor = document.get("id").toString();
 			nombre = document.get("nombre").toString();
 			nacionalidad = document.get("nacionalidad").toString();
