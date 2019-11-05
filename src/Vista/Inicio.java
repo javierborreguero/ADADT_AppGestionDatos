@@ -180,6 +180,8 @@ public class Inicio {
 					System.out.println("No tiene ninguna pelicula asignada");
 				} else {
 					System.out.println("Pelicula: " + entry.getValue().getPeliculas().getId());
+					//System.out.println("Nombre Pelicula" + entry.getValue().getPeliculas().getNombre());
+
 				}
 				contador++;
 				System.out.println("-------------------------------- \n");

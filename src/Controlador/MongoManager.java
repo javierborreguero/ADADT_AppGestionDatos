@@ -16,6 +16,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.util.JSON;
 
+
 import Modelo.Actores;
 import Modelo.Peliculas;
 
@@ -53,6 +54,7 @@ public class MongoManager implements Intercambio {
 		String edad = null;
 		String residencia = null;
 		String idPelicula = null;
+		String nombrePelicula = null;
 		JSONObject obj;
 		JSONArray arr;
 		for (Document document : collectionActores.find()) {
@@ -64,6 +66,24 @@ public class MongoManager implements Intercambio {
 			residencia = document.get("residencia").toString();
 			mActores = new Actores(idActor, nombre, nacionalidad, edad, residencia);
 			if (!obj.get("pelicula").equals("null")) {
+				arr = (JSONArray) obj.get("pelicula");
+				for (int i = 0; i < arr.size(); i++) {
+					JSONObject columna = (JSONObject) arr.get(i);
+					if (!columna.get("id").equals("null")) {
+						
+						nombrePelicula = columna.get("nombre").toString();
+					} else {
+						idPelicula = "null";
+						nombrePelicula = "null";
+					}
+					mPeliculas = new Peliculas(nombrePelicula);
+					mActores.setPeliculas(mPeliculas);
+					actores.put(idActor, mActores);
+				}
+
+			} else {
+				mPeliculas = new Peliculas("null");
+				mActores.setPeliculas(mPeliculas);
 				actores.put(idActor, mActores);
 			}
 
