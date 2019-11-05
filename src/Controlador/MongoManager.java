@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import org.bson.Document;
-
+import org.json.simple.JSONObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -52,6 +52,7 @@ public class MongoManager implements Intercambio {
 		String edad = null;
 		String residencia = null;
 		String idPelicula = null;
+		JSONObject obj;
 		for (Document document : collectionActores.find()) {
 			idActor = document.get("id").toString();
 			nombre = document.get("nombre").toString();
