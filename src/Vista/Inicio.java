@@ -184,18 +184,35 @@ public class Inicio {
 
 					}
 				}
-				if (acceso == 4) {
+				if (acceso == 2) {
 					if (entry.getValue().getPeliculas().getId().equals("null")) {
 						System.out.println("No tiene ninguna pelicula asignada");
 					} else {
-						System.out.println("Pelicula: " + entry.getValue().getPeliculas().getId());
+						System.out.println("Pelicula: " + entry.getValue().getPeliculas().getNombre());
 
 					}
-				}
-				contador++;
-				System.out.println("-------------------------------- \n");
-			}
+					if (acceso == 3) {
+						if (entry.getValue().getPeliculas().getId().equals("null")) {
+							System.out.println("No tiene ninguna pelicula asignada");
+						} else {
+							System.out.println("Pelicula: " + entry.getValue().getPeliculas().getId());
 
+						}
+						if (acceso == 4) {
+							if (entry.getValue().getPeliculas().getId().equals("null")) {
+								System.out.println("No tiene ninguna pelicula asignada");
+							} else {
+								System.out.println("Pelicula: " + entry.getValue().getPeliculas().getId());
+
+							}
+						}
+
+					}
+					contador++;
+					System.out.println("-------------------------------- \n");
+				}
+
+			}
 		}
 	}
 
