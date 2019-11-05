@@ -18,6 +18,7 @@ public class Controlador {
 
 	public Controlador() {
 		FicheroConfiguracionDB = "FicherosConfiguracion/ConfiguracionDB.ini";
+		FicheroConfiguracionMongo = "FicherosConfiguracion/ConfiguracionMongo.ini";
 	}
 
 	public void elegiarOpcion(int acceso) throws FileNotFoundException, IOException {
@@ -28,8 +29,8 @@ public class Controlador {
 			opcionPrincipal = new DBManager(FicheroConfiguracionDB);
 		} else if (acceso == 3) {
 			opcionPrincipal = new HibernateManager();
-		}else if(acceso == 4) {
-			opcionPrincipal = new MongoManager();
+		} else if (acceso == 4) {
+			opcionPrincipal = new MongoManager(FicheroConfiguracionMongo);
 		}
 	}
 
