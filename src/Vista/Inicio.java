@@ -72,12 +72,12 @@ public class Inicio {
 				opcionCorrecta = false;
 				break;
 			case 3:
-				opcionPrincipal = "hibernate";
+				opcionPrincipal = "Hibernate";
 				miControlador.elegiarOpcion(acceso);
 				opcionCorrecta = false;
 				break;
 			case 4:
-				opcionPrincipal = "mongo";
+				opcionPrincipal = "Mongo";
 				miControlador.elegiarOpcion(acceso);
 				opcionCorrecta = false;
 				break;

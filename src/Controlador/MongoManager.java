@@ -6,11 +6,17 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
 
+import org.bson.Document;
+
 import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.util.JSON;
+
 
 import Modelo.Actores;
 import Modelo.Peliculas;
+
 
 public class MongoManager implements Intercambio {
 	private String IP;
@@ -36,14 +42,42 @@ public class MongoManager implements Intercambio {
 
 	@Override
 	public HashMap<String, Actores> leerActores() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		HashMap<String, Actores> actores = new HashMap<String, Actores>();
+		MongoCollection<Document> collectionActores = database.getCollection(ACTORES);
+		Actores mActores = null;
+		Peliculas mPeliculas = null;
+		String idActor = null;
+		String nombre = null;
+		String nacionalidad = null;
+		String edad = null;
+		String residencia = null;
+		String idPelicula = null;
+		for (Document document : collectionActores.find()) {
+			idActor = document.get("id").toString();
+			nombre = document.get("nombre").toString();
+			nacionalidad = document.get("nacionalidad").toString();
+			edad = document.get("edad").toString();
+			residencia = document.get("residencia").toString();
+			mActores = new Actores(idActor, nombre, nacionalidad, edad, residencia);
+			actores.put(idActor, mActores);
+		}
+		return actores;
 	}
 
 	@Override
 	public HashMap<String, Peliculas> leerPeliculas() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		HashMap<String, Peliculas> aux = new HashMap<String, Peliculas>();
+		MongoCollection<Document> collection = database.getCollection(PELICULAS);
+		Peliculas mPeliculas = null;
+		String id, nombre, descripcion = null;
+		for (Document document : collection.find()) {
+			id = document.get("id").toString();
+			nombre = document.getString("nombre").toString();
+			descripcion = document.getString("descripcion").toString();
+			mPeliculas = new Peliculas(id, nombre, descripcion);
+			aux.put(id, mPeliculas);
+		}
+		return aux;
 	}
 
 	@Override
