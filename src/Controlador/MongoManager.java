@@ -174,6 +174,15 @@ public class MongoManager implements Intercambio {
 	}
 
 	@Override
+	public void escribirtodosActores(HashMap<String, Actores> lista) throws IOException {
+		borrarPeliculas();
+		for (Entry<String, Actores> entry : lista.entrySet()) {
+			insertarActor(lista.get(entry.getKey()));
+		}
+
+	}
+
+	@Override
 	public void escribirtodasPeliculas(HashMap<String, Peliculas> lista) throws IOException {
 		borrarPeliculas();
 		for (Entry<String, Peliculas> entry : lista.entrySet()) {
@@ -183,6 +192,7 @@ public class MongoManager implements Intercambio {
 
 	@Override
 	public boolean borrarActores() throws IOException {
+
 		MongoCollection<Document> collectionActores = database.getCollection(ACTORES);
 		for (Entry<String, Actores> entry : leerActores().entrySet()) {
 			collectionActores.deleteMany(Filters.gte("id", entry.getKey()));
@@ -192,6 +202,7 @@ public class MongoManager implements Intercambio {
 
 	@Override
 	public boolean borrarPeliculas() throws IOException {
+		borrarActores();
 		MongoCollection<Document> collectionPelis = database.getCollection(PELICULAS);
 		for (Entry<String, Peliculas> entry : leerPeliculas().entrySet()) {
 			collectionPelis.deleteMany(Filters.gte("id", entry.getKey()));
@@ -211,14 +222,24 @@ public class MongoManager implements Intercambio {
 
 	@Override
 	public boolean borrarUnaPelicula(String Id) throws IOException {
-		// TODO Auto-generated method stub
+		if (leerPeliculas().get(Id) != null) {
+			for (Entry<String, Actores> entry : leerActores().entrySet()) {
+				if (entry.getValue().getPeliculas().getId().equals(Id)) {
+					MongoCollection<Document> collectionActores = database.getCollection(ACTORES);
+					Document query = new Document();
+					query.append("id", entry.getValue().getId());
+					Document setData = new Document();
+					setData.append("pelicula", "null");
+					Document update = new Document();
+					update.append("$set", setData);
+					collectionActores.updateOne(query, update);
+				}
+			}
+			MongoCollection<Document> collectionPelis = database.getCollection(PELICULAS);
+			collectionPelis.deleteOne(Filters.eq("id", Id));
+			return true;
+		}
 		return false;
-	}
-
-	@Override
-	public void escribirtodosActores(HashMap<String, Actores> lista) throws IOException {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

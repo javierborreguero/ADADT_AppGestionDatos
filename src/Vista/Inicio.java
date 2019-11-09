@@ -492,7 +492,8 @@ public class Inicio {
 			mostrarIdPelicula();
 			break;
 		default:
-			break;
+			System.out.println("Dato mal introducido");
+			
 		}
 		teclado.nextLine();
 		idBorrar = teclado.nextLine();
@@ -505,7 +506,6 @@ public class Inicio {
 			break;
 		default:
 			System.out.println("Dato mal introducido");
-			break;
 		}
 
 	}
