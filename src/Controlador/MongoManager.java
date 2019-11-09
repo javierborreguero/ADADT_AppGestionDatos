@@ -280,7 +280,34 @@ public class MongoManager implements Intercambio {
 
 	@Override
 	public boolean modificarUnaPelicula(String idmodificar, Peliculas modificar) throws IOException {
-		// TODO Auto-generated method stub
+		if (leerPeliculas().get(idmodificar) != null) {
+			MongoCollection<Document> collectionPelis = database.getCollection(PELICULAS);
+			Document query = new Document();
+			query.append("id", idmodificar);
+			Document setData = new Document();
+			query.append("id", modificar.getId()).append("nombre", modificar.getNombre()).append("descripcion",
+					modificar.getDescripcion());
+			Document update = new Document();
+			update.append("$set", setData);
+			collectionPelis.updateOne(query, update);
+			MongoCollection<Document> collectionPelis2 = database.getCollection(PELICULAS);
+			Document query2 = new Document();
+			query2.append("pelicula.id", modificar.getId());
+			System.out.println(
+					"Id de la pelicula " + modificar.getId() + "Nombre de la pelicula " + modificar.getNombre());
+			JSONObject obj = new JSONObject();
+			obj.put("id", modificar.getId());
+			obj.put("nombre", modificar.getNombre());
+			obj.put("descripcion", modificar.getDescripcion());
+			JSONArray arr = new JSONArray();
+			arr.add(obj);
+			Document setData2 = new Document();
+			setData2.append("pelicula", arr);
+			Document update2 = new Document();
+			update2.append("$set", setData2);
+			collectionPelis2.updateMany(query2, update2);
+			return true;
+		}
 		return false;
 	}
 
