@@ -201,7 +201,11 @@ public class MongoManager implements Intercambio {
 
 	@Override
 	public boolean borrarUnActor(String Id) throws IOException {
-		// TODO Auto-generated method stub
+		if (leerActores().get(Id) != null) {
+			MongoCollection<Document> collectionActores = database.getCollection(ACTORES);
+			collectionActores.deleteOne(Filters.eq("id", Id));
+			return true;
+		}
 		return false;
 	}
 
