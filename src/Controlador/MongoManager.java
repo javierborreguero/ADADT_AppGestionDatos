@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
-
+import java.util.Map.Entry;
 import org.bson.Document;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,8 +14,8 @@ import org.json.simple.JSONValue;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.mongodb.util.JSON;
-
 
 import Modelo.Actores;
 import Modelo.Peliculas;
@@ -70,7 +70,7 @@ public class MongoManager implements Intercambio {
 				for (int i = 0; i < arr.size(); i++) {
 					JSONObject columna = (JSONObject) arr.get(i);
 					if (!columna.get("id").equals("null")) {
-						
+
 						nombrePelicula = columna.get("nombre").toString();
 					} else {
 						idPelicula = "null";
@@ -108,12 +108,6 @@ public class MongoManager implements Intercambio {
 	}
 
 	@Override
-	public boolean comprobarIdPeli(Peliculas nuevo) throws IOException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean comprobarIdActor(Actores nuevo) throws IOException {
 		// TODO Auto-generated method stub
 		return false;
@@ -126,9 +120,35 @@ public class MongoManager implements Intercambio {
 	}
 
 	@Override
+	public boolean comprobarIdPeli(Peliculas nuevo) throws IOException {
+		HashMap<String, Peliculas> peliculas = leerPeliculas();
+		if (peliculas.get(nuevo.getId()) != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
 	public boolean isertarPelicula(Peliculas nuevo) throws IOException {
-		// TODO Auto-generated method stub
+		if (!comprobarIdPeli(nuevo)) {
+			MongoCollection<Document> collectionPelis = database.getCollection(PELICULAS);
+			Document document = new Document();
+			document.put("id", nuevo.getId());
+			document.put("nombre", nuevo.getNombre());
+			document.put("descripcion", nuevo.getDescripcion());
+			collectionPelis.insertOne(document);
+			return true;
+		}
 		return false;
+	}
+
+	@Override
+	public void escribirtodasPeliculas(HashMap<String, Peliculas> lista) throws IOException {
+		borrarPeliculas();
+		for (Entry<String, Peliculas> entry : lista.entrySet()) {
+			isertarPelicula(lista.get(entry.getKey()));
+		}
 	}
 
 	@Override
@@ -139,8 +159,11 @@ public class MongoManager implements Intercambio {
 
 	@Override
 	public boolean borrarPeliculas() throws IOException {
-		// TODO Auto-generated method stub
-		return false;
+		MongoCollection<Document> collectionPelis = database.getCollection(PELICULAS);
+		for (Entry<String, Peliculas> entry : leerPeliculas().entrySet()) {
+			collectionPelis.deleteMany(Filters.gte("id", entry.getKey()));
+		}
+		return true;
 	}
 
 	@Override
@@ -157,12 +180,6 @@ public class MongoManager implements Intercambio {
 
 	@Override
 	public void escribirtodosActores(HashMap<String, Actores> lista) throws IOException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void escribirtodasPeliculas(HashMap<String, Peliculas> lista) throws IOException {
 		// TODO Auto-generated method stub
 
 	}
