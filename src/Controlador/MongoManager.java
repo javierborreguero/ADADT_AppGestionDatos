@@ -109,13 +109,43 @@ public class MongoManager implements Intercambio {
 
 	@Override
 	public boolean comprobarIdActor(Actores nuevo) throws IOException {
-		// TODO Auto-generated method stub
-		return false;
+		HashMap<String, Actores> actores = leerActores();
+		if (actores.get(nuevo.getId()) != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean insertarActor(Actores nuevo) throws IOException {
-		// TODO Auto-generated method stub
+		if (!comprobarIdActor(nuevo)) {
+			MongoCollection<Document> collectionActores = database.getCollection(ACTORES);
+			Document document = new Document();
+			document.put("id", nuevo.getId());
+			document.put("nombre", nuevo.getNombre());
+			document.put("nacionalidad", nuevo.getNacionalidad());
+			document.put("edad", nuevo.getEdad());
+			document.put("residencia", nuevo.getResidencia());
+			if (nuevo.getPeliculas() != null) {
+				if (!nuevo.getPeliculas().getId().equals("null")) {
+					JSONObject obj = new JSONObject();
+					obj.put("id", nuevo.getPeliculas().getId());
+					obj.put("nombre", nuevo.getPeliculas().getNombre());
+					obj.put("descripcion", nuevo.getPeliculas().getDescripcion());
+					JSONArray arr = new JSONArray();
+					arr.add(obj);
+					document.put("pelicula", arr);
+				} else {
+					document.put("pelicula", "null");
+				}
+
+			} else {
+				document.put("pelicula", "null");
+			}
+			collectionActores.insertOne(document);
+			return true;
+		}
 		return false;
 	}
 
@@ -153,8 +183,11 @@ public class MongoManager implements Intercambio {
 
 	@Override
 	public boolean borrarActores() throws IOException {
-		// TODO Auto-generated method stub
-		return false;
+		MongoCollection<Document> collectionActores = database.getCollection(ACTORES);
+		for (Entry<String, Actores> entry : leerActores().entrySet()) {
+			collectionActores.deleteMany(Filters.gte("id", entry.getKey()));
+		}
+		return true;
 	}
 
 	@Override
