@@ -16,6 +16,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.util.JSON;
+import com.sun.javadoc.Doc;
 
 import Modelo.Actores;
 import Modelo.Peliculas;
@@ -244,7 +245,36 @@ public class MongoManager implements Intercambio {
 
 	@Override
 	public boolean modificarUnActor(String idmodificar, Actores modificar) throws IOException {
-		// TODO Auto-generated method stub
+		if (leerActores().get(idmodificar) != null) {
+			MongoCollection<Document> collectionActores = database.getCollection(ACTORES);
+			Document query = new Document();
+			query.append("id", idmodificar);
+			Document setData = new Document();
+			setData.append("nombre", modificar.getNombre()).append("nacionalidad", modificar.getNacionalidad())
+					.append("edad", modificar.getEdad()).append("residencia", modificar.getResidencia());
+			if (modificar.getPeliculas() != null) {
+				if (!modificar.getPeliculas().getId().equals("null")) {
+					JSONObject obj = new JSONObject();
+					Peliculas mPeliculas = modificar.getPeliculas();
+					System.out.println("Id de la pelicula " + mPeliculas.getId() + "Nombre de la pelicula "
+							+ mPeliculas.getNombre());
+					obj.put("id", mPeliculas.getId());
+					obj.put("nombre", mPeliculas.getNombre());
+					obj.put("descripcion", mPeliculas.getDescripcion());
+					JSONArray arr = new JSONArray();
+					arr.add(obj);
+					setData.append("pelicula", arr);
+				} else {
+					setData.append("pelicula", "null");
+				}
+			} else {
+				setData.append("pelicula", "null");
+			}
+			Document update = new Document();
+			update.append("$set", setData);
+			collectionActores.updateOne(query, update);
+			return true;
+		}
 		return false;
 	}
 
