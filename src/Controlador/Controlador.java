@@ -110,6 +110,12 @@ public class Controlador {
 			HashMap<String, Peliculas> leer_peliculas = opcionSecundaria.leerPeliculas();
 			opcionPrincipal.escribirtodasPeliculas(leer_peliculas);
 			opcionPrincipal.escribirtodosActores(leer_actores);
+		} else if (importar == 4) {
+			opcionSecundaria = new MongoManager(FicheroConfiguracionMongo);
+			HashMap<String, Actores> leer_actores = opcionSecundaria.leerActores();
+			HashMap<String, Peliculas> leer_peliculas = opcionSecundaria.leerPeliculas();
+			opcionPrincipal.escribirtodasPeliculas(leer_peliculas);
+			opcionPrincipal.escribirtodosActores(leer_actores);
 		}
 		return true;
 
