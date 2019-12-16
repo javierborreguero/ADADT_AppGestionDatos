@@ -59,6 +59,7 @@ public class Inicio {
 			System.out.println("2. Base de datos");
 			System.out.println("3. Hibernate");
 			System.out.println("4. Mongo");
+			System.out.println("5. PHP");
 			acceso = teclado.nextInt();
 			switch (acceso) {
 			case 1:
@@ -78,6 +79,11 @@ public class Inicio {
 				break;
 			case 4:
 				opcionPrincipal = "Mongo";
+				miControlador.elegiarOpcion(acceso);
+				opcionCorrecta = false;
+				break;
+			case 5:
+				opcionPrincipal = "PHP";
 				miControlador.elegiarOpcion(acceso);
 				opcionCorrecta = false;
 				break;
