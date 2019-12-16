@@ -13,12 +13,12 @@ public class Controlador {
 	// Nos treamos las varibales que nos dan la opción de eleccion en los menús
 	private Intercambio opcionPrincipal;
 	private Intercambio opcionSecundaria;
-	private String FicheroConfiguracionDB;
-	private String FicheroConfiguracionMongo;
+	private String FicheroConfiguracionDB, FicheroConfiguracionMongo, FicheroConfiguracionJSON;
 
 	public Controlador() {
 		FicheroConfiguracionDB = "FicherosConfiguracion/ConfiguracionDB.ini";
 		FicheroConfiguracionMongo = "FicherosConfiguracion/ConfiguracionMongo.ini";
+		FicheroConfiguracionJSON = "FicherosConfiguracion/ConfiguracionJSON.ini";
 	}
 
 	public void elegiarOpcion(int acceso) throws FileNotFoundException, IOException {
@@ -31,6 +31,8 @@ public class Controlador {
 			opcionPrincipal = new HibernateManager();
 		} else if (acceso == 4) {
 			opcionPrincipal = new MongoManager(FicheroConfiguracionMongo);
+		} else if(acceso == 5) {
+			opcionPrincipal = new JSONManager(FicheroConfiguracionJSON);
 		}
 	}
 
