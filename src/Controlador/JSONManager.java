@@ -37,6 +37,9 @@ public class JSONManager implements Intercambio {
 			System.out.println("El json recibido no es correcto. Finaliza la ejecuci�n");
 			System.exit(-1);
 		} else {
+			
+			System.out.println(respuesta.toString());
+			
 			String estado = (String) respuesta.get("estado");
 			if (estado.equals("ok")) {
 				JSONArray actoresarr = (JSONArray) respuesta.get("actores");
@@ -52,17 +55,17 @@ public class JSONManager implements Intercambio {
 					for (int i = 0; i < actoresarr.size(); i++) {
 						JSONObject row = (JSONObject) actoresarr.get(i);
 						id = row.get("id").toString();
-						nombre = row.get("id").toString();
+						nombre = row.get("nombre").toString();
 						nacionalidad = row.get("nacionalidad").toString();
 						edad = row.get("edad").toString();
 						residencia = row.get("residencia").toString();
 						if (row.get("pelicula") != null) {
 							pelicula = row.get("pelicula").toString();
-							if (leerPeliculas().get(pelicula) != null) {
-								mPeliculas = new Peliculas(pelicula, leerPeliculas().get(pelicula).getNombre());
-							}
-						} else {
-							pelicula = "null";
+//							if (leerPeliculas().get(pelicula) != null) {
+//								mPeliculas = new Peliculas(pelicula, leerPeliculas().get(pelicula).getNombre());
+//							}
+//						} else {
+//							pelicula = "null";
 							mPeliculas = new Peliculas(pelicula);
 						}
 						mActores = new Actores(id, nombre, nacionalidad, edad, residencia, (Peliculas) mPeliculas);
