@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import com.mongodb.util.JSON;
 import Modelo.Actores;
 import Modelo.Peliculas;
 
@@ -37,9 +38,6 @@ public class JSONManager implements Intercambio {
 			System.out.println("El json recibido no es correcto. Finaliza la ejecuci�n");
 			System.exit(-1);
 		} else {
-			
-			System.out.println(respuesta.toString());
-			
 			String estado = (String) respuesta.get("estado");
 			if (estado.equals("ok")) {
 				JSONArray actoresarr = (JSONArray) respuesta.get("actores");
@@ -90,8 +88,42 @@ public class JSONManager implements Intercambio {
 
 	@Override
 	public HashMap<String, Peliculas> leerPeliculas() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		HashMap<String, Peliculas> auxhm = new HashMap<String, Peliculas>();
+		String url = SERVER_PATH + GET_PELICULAS;
+		String response = encargadoPeticiones.getRequest(url);
+		JSONObject respuesta = (JSONObject) JSONValue.parse(response.toString());
+		if (respuesta == null) {
+			System.out.println("El json recibido no es correcto. Finaliza la ejecuci�n");
+			System.exit(-1);
+		} else {
+			String estado = (String) respuesta.get("estado");
+			if (estado.equals("ok")) {
+				JSONArray peliculaArr = (JSONArray) respuesta.get("pelicula");
+				if (peliculaArr.size() > 0) {
+					Peliculas mPeliculas;
+					String id;
+					String nombre;
+					String descripcion;
+					for (int i = 0; i < peliculaArr.size(); i++) {
+						JSONObject row = (JSONObject) peliculaArr.get(i);
+						id = row.get("id").toString();
+						nombre = row.get("nombre").toString();
+						descripcion = row.get("descripcion").toString();
+						mPeliculas = new Peliculas(id, nombre, descripcion);
+						auxhm.put(id, mPeliculas);
+					}
+				} else {
+					System.out.println("Acceso JSON Remoto - No hay datos que tratar");
+					System.out.println();
+				}
+			} else {
+				System.out.println("Ha ocurrido un error en la busqueda de datos");
+				System.out.println("Error: " + (String) respuesta.get("error"));
+				System.out.println("Consulta: " + (String) respuesta.get("query"));
+				System.exit(-1);
+			}
+		}
+		return auxhm;
 	}
 
 	@Override
