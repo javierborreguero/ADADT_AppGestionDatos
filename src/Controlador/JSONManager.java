@@ -16,7 +16,7 @@ import Modelo.Peliculas;
 public class JSONManager implements Intercambio {
 
 	private ApiRequest encargadoPeticiones;
-	private String SERVER_PATH, GET_ACTORES, GET_PELICULAS, SET_ACTORES;
+	private String SERVER_PATH, GET_ACTORES, GET_PELICULAS, SET_ACTORES, SET_PELICULAS;
 
 	public JSONManager(String archivo) throws FileNotFoundException, IOException {
 
@@ -27,6 +27,7 @@ public class JSONManager implements Intercambio {
 		GET_ACTORES = p.getProperty("GET_ACTORES");
 		GET_PELICULAS = p.getProperty("GET_PELICULAS");
 		SET_ACTORES = p.getProperty("SET_ACTORES");
+		SET_PELICULAS = p.getProperty("SET_PELICULAS");
 	}
 
 	@Override
@@ -61,7 +62,8 @@ public class JSONManager implements Intercambio {
 						if (row.get("pelicula") != null) {
 							pelicula = row.get("pelicula").toString();
 							if (leerPeliculas().get(pelicula) != null) {
-								mPeliculas = new Peliculas(pelicula, leerPeliculas().get(pelicula).getNombre(), leerPeliculas().get(pelicula).getDescripcion());
+								mPeliculas = new Peliculas(pelicula, leerPeliculas().get(pelicula).getNombre(),
+										leerPeliculas().get(pelicula).getDescripcion());
 							}
 						} else {
 							pelicula = "null";
@@ -128,14 +130,6 @@ public class JSONManager implements Intercambio {
 	}
 
 	@Override
-	public boolean comprobarIdPeli(Peliculas nuevo) throws IOException {
-		if (leerPeliculas().get(nuevo.getId()) != null) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
 	public boolean insertarActor(Actores nuevo) throws IOException {
 		if (!comprobarIdActor(nuevo)) {
 			try {
@@ -148,7 +142,6 @@ public class JSONManager implements Intercambio {
 				objActor.put("nacionalidad", nuevo.getNacionalidad());
 				objActor.put("edad", nuevo.getEdad());
 				objActor.put("residencia", nuevo.getResidencia());
-			
 
 				objPeticion.put("actorAnnadir", objActor);
 				objPeticion.put("peticion", "add");
@@ -190,7 +183,52 @@ public class JSONManager implements Intercambio {
 
 	@Override
 	public boolean isertarPelicula(Peliculas nuevo) throws IOException {
-		// TODO Auto-generated method stub
+		if (!comprobarIdPeli(nuevo)) {
+			try {
+				JSONObject objPelicula = new JSONObject();
+				JSONObject objPeticion = new JSONObject();
+
+				objPelicula.put("id", nuevo.getId());
+				objPelicula.put("nombre", nuevo.getNombre());
+				objPelicula.put("descripcion", nuevo.getDescripcion());
+
+				objPeticion.put("peliculaAnnadir", objPelicula);
+				objPeticion.put("peticion", "add");
+
+				String json = objPeticion.toJSONString();
+				String url = SERVER_PATH + SET_PELICULAS;
+
+				String response = encargadoPeticiones.postRequest(url, json);
+				JSONObject respuesta = (JSONObject) JSONValue.parse(response.toString());
+
+				if (respuesta == null) {
+					System.out.println("El json recibido no es correcto. Finaliza la ejecuciï¿½n");
+					System.exit(-1);
+				} else {
+					String estado = (String) respuesta.get("estado");
+					if (estado.equals("ok")) {
+						return true;
+					} else {
+						System.out.println("Acceso JSON REMOTO - Error al almacenar los datos");
+						System.out.println("Error: " + (String) respuesta.get("error"));
+						System.out.println("Consulta: " + (String) respuesta.get("query"));
+					}
+				}
+			} catch (Exception e) {
+				System.out.println(
+						"Excepcion desconocida. Traza de error comentada en el mï¿½todo 'annadirEquipo' de la clase JSON REMOTO");
+				System.out.println("Fin ejecuciï¿½n");
+				System.exit(-1);
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean comprobarIdPeli(Peliculas nuevo) throws IOException {
+		if (leerPeliculas().get(nuevo.getId()) != null) {
+			return true;
+		}
 		return false;
 	}
 
