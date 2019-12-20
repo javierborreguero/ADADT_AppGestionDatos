@@ -16,7 +16,7 @@ import Modelo.Peliculas;
 public class JSONManager implements Intercambio {
 
 	private ApiRequest encargadoPeticiones;
-	private String SERVER_PATH, GET_ACTORES, GET_PELICULAS;
+	private String SERVER_PATH, GET_ACTORES, GET_PELICULAS, SET_ACTORES;
 
 	public JSONManager(String archivo) throws FileNotFoundException, IOException {
 
@@ -26,6 +26,7 @@ public class JSONManager implements Intercambio {
 		SERVER_PATH = p.getProperty("SERVER_PATH");
 		GET_ACTORES = p.getProperty("GET_ACTORES");
 		GET_PELICULAS = p.getProperty("GET_PELICULAS");
+		SET_ACTORES = p.getProperty("SET_ACTORES");
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class JSONManager implements Intercambio {
 		String response = encargadoPeticiones.getRequest(url);
 		JSONObject respuesta = (JSONObject) JSONValue.parse(response.toString());
 		if (respuesta == null) {
-			System.out.println("El json recibido no es correcto. Finaliza la ejecuci�n");
+			System.out.println("El json recibido no es correcto. Finaliza la ejecuciï¿½n");
 			System.exit(-1);
 		} else {
 			String estado = (String) respuesta.get("estado");
@@ -59,11 +60,11 @@ public class JSONManager implements Intercambio {
 						residencia = row.get("residencia").toString();
 						if (row.get("pelicula") != null) {
 							pelicula = row.get("pelicula").toString();
-//							if (leerPeliculas().get(pelicula) != null) {
-//								mPeliculas = new Peliculas(pelicula, leerPeliculas().get(pelicula).getNombre());
-//							}
-//						} else {
-//							pelicula = "null";
+							if (leerPeliculas().get(pelicula) != null) {
+								mPeliculas = new Peliculas(pelicula, leerPeliculas().get(pelicula).getNombre(), leerPeliculas().get(pelicula).getDescripcion());
+							}
+						} else {
+							pelicula = "null";
 							mPeliculas = new Peliculas(pelicula);
 						}
 						mActores = new Actores(id, nombre, nacionalidad, edad, residencia, (Peliculas) mPeliculas);
@@ -128,7 +129,54 @@ public class JSONManager implements Intercambio {
 
 	@Override
 	public boolean comprobarIdPeli(Peliculas nuevo) throws IOException {
-		// TODO Auto-generated method stub
+		if (leerPeliculas().get(nuevo.getId()) != null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean insertarActor(Actores nuevo) throws IOException {
+		if (!comprobarIdActor(nuevo)) {
+			try {
+				JSONObject objActor = new JSONObject();
+				JSONObject objPeticion = new JSONObject();
+
+				objActor.put("id", nuevo.getId());
+				objActor.put("nombre", nuevo.getNombre());
+				objActor.put("pelicula", nuevo.getPeliculas().getId());
+				objActor.put("nacionalidad", nuevo.getNacionalidad());
+				objActor.put("edad", nuevo.getEdad());
+				objActor.put("residencia", nuevo.getResidencia());
+			
+
+				objPeticion.put("actorAnnadir", objActor);
+				objPeticion.put("peticion", "add");
+
+				String json = objPeticion.toJSONString();
+				String url = SERVER_PATH + SET_ACTORES;
+				String response = encargadoPeticiones.postRequest(url, json);
+				JSONObject respuesta = (JSONObject) JSONValue.parse(response.toString());
+
+				if (respuesta == null) {
+					System.out.println("Actor añadido correctamente");
+				} else {
+					String estado = (String) respuesta.get("estado");
+					if (estado.equals("ok")) {
+						return true;
+					} else {
+						System.out.println("Acceso JSON REMOTO - Error al almacenar los datos");
+						System.out.println("Error: " + (String) respuesta.get("error"));
+						System.out.println("Consulta: " + (String) respuesta.get("query"));
+					}
+				}
+			} catch (Exception e) {
+				System.out.println(
+						"Excepcion desconocida. Traza de error comentada en el mï¿½todo 'annadirEquipo' de la clase JSON REMOTO");
+				System.out.println("Fin ejecuciï¿½n");
+				System.exit(-1);
+			}
+		}
 		return false;
 	}
 
@@ -137,12 +185,6 @@ public class JSONManager implements Intercambio {
 		if (leerActores().get(nuevo.getId()) != null) {
 			return true;
 		}
-		return false;
-	}
-
-	@Override
-	public boolean insertarActor(Actores nuevo) throws IOException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

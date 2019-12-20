@@ -183,24 +183,16 @@ public class Inicio {
 				System.out.println("Edad: " + entry.getValue().getEdad());
 				System.out.println("Residencia: " + entry.getValue().getResidencia());
 
-				if (acceso == 1 || acceso == 2 || acceso == 3 || acceso == 4 || acceso == 5) {
-					if (entry.getValue().getPeliculas().getId().equals("null")) {
-						System.out.println("No tiene ninguna pelicula asignada");
-					} else {
-						System.out.println("Pelicula: " + entry.getValue().getPeliculas().getNombre());
-
-					}
+				if (entry.getValue().getPeliculas().getId().equals("null")) {
+					System.out.println("No tiene ninguna pelicula asignada");
 				} else {
-					if (entry.getValue().getPeliculas().getId().equals("null")) {
-						System.out.println("No tiene ninguna pelicula asignada");
-					} else {
-						System.out.println("Pelicula: " + entry.getValue().getPeliculas().getId());
+					System.out.println("Pelicula: " + entry.getValue().getPeliculas().getNombre());
 
-					}
 				}
-				contador++;
-				System.out.println("-------------------------------- \n");
 			}
+			contador++;
+			System.out.println("-------------------------------- \n");
+
 		}
 	}
 
