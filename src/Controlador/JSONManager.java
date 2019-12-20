@@ -16,7 +16,8 @@ import Modelo.Peliculas;
 public class JSONManager implements Intercambio {
 
 	private ApiRequest encargadoPeticiones;
-	private String SERVER_PATH, GET_ACTORES, GET_PELICULAS, SET_ACTORES, SET_PELICULAS;
+	private String SERVER_PATH, GET_ACTORES, GET_PELICULAS, SET_ACTORES, SET_PELICULAS, DELETE_ACTORES,
+			DELETE_PELICULAS;
 
 	public JSONManager(String archivo) throws FileNotFoundException, IOException {
 
@@ -28,6 +29,8 @@ public class JSONManager implements Intercambio {
 		GET_PELICULAS = p.getProperty("GET_PELICULAS");
 		SET_ACTORES = p.getProperty("SET_ACTORES");
 		SET_PELICULAS = p.getProperty("SET_PELICULAS");
+		DELETE_ACTORES = p.getProperty("DELETE_ACTORES");
+		DELETE_PELICULAS = p.getProperty("DELETE_PELICULAS");
 	}
 
 	@Override
@@ -234,13 +237,59 @@ public class JSONManager implements Intercambio {
 
 	@Override
 	public boolean borrarActores() throws IOException {
-		// TODO Auto-generated method stub
+		try {
+			String url = SERVER_PATH + DELETE_ACTORES;
+			String response = encargadoPeticiones.getRequest(url);
+			JSONObject respuesta = (JSONObject) JSONValue.parse(response.toString());
+			if (respuesta == null) {
+				System.out.println("El json recibido no es correcto. Finaliza la ejecuciï¿½n");
+				System.exit(-1);
+			} else {
+				String estado = (String) respuesta.get("estado");
+				if (estado.equals("ok")) {
+					return true;
+				} else {
+					System.out.println("Ha ocurrido un error en la busqueda de datos");
+					System.out.println("Error: " + (String) respuesta.get("error"));
+					System.out.println("Consulta: " + (String) respuesta.get("query"));
+					System.exit(-1);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Ha ocurrido un error en la busqueda de datos");
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		return false;
 	}
 
 	@Override
 	public boolean borrarPeliculas() throws IOException {
-		// TODO Auto-generated method stub
+		borrarActores();
+		try {
+			String url = SERVER_PATH + DELETE_PELICULAS;
+			String response = encargadoPeticiones.getRequest(url);
+			JSONObject respuesta = (JSONObject) JSONValue.parse(response.toString());
+			if (respuesta == null) {
+				System.out.println("El json recibido no es correcto. Finaliza la ejecuciï¿½n");
+				System.exit(-1);
+			} else {
+				String estado = (String) respuesta.get("estado");
+				if (estado.equals("ok")) {
+					return true;
+				} else {
+					System.out.println("Ha ocurrido un error en la busqueda de datos");
+					System.out.println("Error: " + (String) respuesta.get("error"));
+					System.out.println("Consulta: " + (String) respuesta.get("query"));
+					System.exit(-1);
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.println("Ha ocurrido un error en la busqueda de datos");
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		return false;
 	}
 
