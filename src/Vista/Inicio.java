@@ -306,6 +306,7 @@ public class Inicio {
 			System.out.println("2. Base de datos");
 			System.out.println("3. Hibernate");
 			System.out.println("4. Mongo");
+			System.out.println("4. JSON");
 			importar = teclado.nextInt();
 			switch (importar) {
 
@@ -323,6 +324,9 @@ public class Inicio {
 			case 4:
 				importarMongo(importar);
 				break;
+			case 5:
+				importarJSON(importar);
+				break;
 			default:
 				System.out.println("Dato mal introducido");
 			}
@@ -332,6 +336,7 @@ public class Inicio {
 			System.out.println("1. Ficheros");
 			System.out.println("2. Hibernate");
 			System.out.println("4. Mongo");
+			System.out.println("5. JSON");
 			importar = teclado.nextInt();
 			switch (importar) {
 			case 1:
@@ -355,6 +360,7 @@ public class Inicio {
 			System.out.println("1. Ficheros");
 			System.out.println("2. Base de datos");
 			System.out.println("4. Mongo");
+			System.out.println("5. JSON");
 			importar = teclado.nextInt();
 			switch (importar) {
 			case 1:
@@ -378,7 +384,7 @@ public class Inicio {
 			System.out.println("1. Ficheros");
 			System.out.println("2. Base de datos");
 			System.out.println("3. Hibernate");
-			System.out.println("");
+			System.out.println("5. JSON");
 			switch (importar) {
 			case 1:
 				importarFicheros(importar);
@@ -389,10 +395,39 @@ public class Inicio {
 			case 3:
 				importarHM(importar);
 				break;
+			case 5:
+				importarJSON(importar);
+				break;
 			default:
 				throw new IllegalArgumentException("Unexpected value: " + importar);
 			}
 		}
+		if (acceso == 5) {
+			System.out.println("¿De dónde quieres copiar los datos?");
+			System.out.println("1. Ficheros");
+			System.out.println("2. Base de datos");
+			System.out.println("3. Hibernate");
+			System.out.println("4. JSON");
+			switch (importar) {
+			case 1:
+				importarFicheros(importar);
+				break;
+			case 2:
+				importarDB(importar);
+				break;
+			case 3:
+				importarHM(importar);
+				break;
+			case 4:
+				importarMongo(importar);
+				break;
+			
+			default:
+				System.out.println("dato mal introduido");
+			
+			}
+		}
+
 	}
 
 	public void importarFicheros(int importar) throws IOException {
@@ -412,6 +447,15 @@ public class Inicio {
 			}
 		}
 		if (acceso == 4) {
+			miControlador.importar(importar);
+			if (miControlador.importar(importar)) {
+				System.out.println("Datos copiados correctamente");
+			} else {
+				System.out.println("No se han podido copiar los datos");
+			}
+		}
+
+		if (acceso == 5) {
 			miControlador.importar(importar);
 			if (miControlador.importar(importar)) {
 				System.out.println("Datos copiados correctamente");
@@ -447,6 +491,14 @@ public class Inicio {
 				System.out.println("No se han podido copiar los datos");
 			}
 		}
+		if (acceso == 5) {
+			miControlador.importar(importar);
+			if (miControlador.importar(importar)) {
+				System.out.println("Datos copiados correctamente");
+			} else {
+				System.out.println("No se han podido copiar los datos");
+			}
+		}
 
 	}
 
@@ -468,6 +520,14 @@ public class Inicio {
 			}
 		}
 		if (acceso == 4) {
+			miControlador.importar(importar);
+			if (miControlador.importar(importar)) {
+				System.out.println("Datos copiados correctamente");
+			} else {
+				System.out.println("No se han podido copiar los datos");
+			}
+		}
+		if (acceso == 5) {
 			miControlador.importar(importar);
 			if (miControlador.importar(importar)) {
 				System.out.println("Datos copiados correctamente");
@@ -503,6 +563,51 @@ public class Inicio {
 				System.out.println("No se han podido copiar los datos");
 			}
 		}
+		if (acceso == 5) {
+			miControlador.importar(importar);
+			if (miControlador.importar(importar)) {
+				System.out.println("Datos copiados correctamente");
+			} else {
+				System.out.println("No se han podido copiar los datos");
+			}
+		}
+	}
+
+	public void importarJSON(int importar) throws IOException {
+		if (acceso == 1) {
+			miControlador.importar(importar);
+			if (miControlador.importar(importar)) {
+				System.out.println("Datos copiados correctamente");
+			} else {
+				System.out.println("No se han podido copiar los datos");
+			}
+
+		}
+		if (acceso == 2) {
+			miControlador.importar(importar);
+			if (miControlador.importar(importar)) {
+				System.out.println("Datos copiados correctamente");
+			} else {
+				System.out.println("No se han podido copiar los datos");
+			}
+		}
+		if (acceso == 3) {
+			miControlador.importar(importar);
+			if (miControlador.importar(importar)) {
+				System.out.println("Datos copiados correctamente");
+			} else {
+				System.out.println("No se han podido copiar los datos");
+			}
+		}
+		if (acceso == 5) {
+			miControlador.importar(importar);
+			if (miControlador.importar(importar)) {
+				System.out.println("Datos copiados correctamente");
+			} else {
+				System.out.println("No se han podido copiar los datos");
+			}
+		}
+
 	}
 
 	/*
