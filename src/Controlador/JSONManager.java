@@ -17,7 +17,7 @@ public class JSONManager implements Intercambio {
 
 	private ApiRequest encargadoPeticiones;
 	private String SERVER_PATH, GET_ACTORES, GET_PELICULAS, SET_ACTORES, SET_PELICULAS, DELETE_ACTORES,
-			DELETE_PELICULAS;
+			DELETE_PELICULAS, DELETE_ONE_ACTOR, DELETE_ONE_PELICULA;
 
 	public JSONManager(String archivo) throws FileNotFoundException, IOException {
 
@@ -31,6 +31,7 @@ public class JSONManager implements Intercambio {
 		SET_PELICULAS = p.getProperty("SET_PELICULAS");
 		DELETE_ACTORES = p.getProperty("DELETE_ACTORES");
 		DELETE_PELICULAS = p.getProperty("DELETE_PELICULAS");
+		DELETE_ONE_PELICULA = p.getProperty("DELETE_ONE_PELICULA");
 	}
 
 	@Override
@@ -295,15 +296,73 @@ public class JSONManager implements Intercambio {
 
 	@Override
 	public boolean borrarUnActor(String Id) throws IOException {
-		// TODO Auto-generated method stub
+		try {
+			JSONObject objActor = new JSONObject();
+			JSONObject objPeticion = new JSONObject();
+			objActor.put("Id", Id);
+			objPeticion.put("actorBorrar", objActor);
+			objPeticion.put("peticion", "delete");
+			String json = objPeticion.toJSONString();
+			String url = SERVER_PATH + DELETE_ONE_ACTOR;
+			String response = encargadoPeticiones.postRequest(url, json);
+			JSONObject respuesta = (JSONObject) JSONValue.parse(response.toString());
+			if (respuesta == null) {
+				System.out.println("El json recibido no es correcto. Finaliza la ejecuciï¿½n");
+				System.exit(-1);
+			} else {
+				String estado = (String) respuesta.get("estado");
+				if (estado.equals("ok")) {
+					return true;
+				} else {
+					System.out.println("Acceso JSON REMOTO - Error al almacenar los datos");
+					System.out.println("Error: " + (String) respuesta.get("error"));
+					System.out.println("Consulta: " + (String) respuesta.get("query"));
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(
+					"Excepcion desconocida. Traza de error comentada en el mï¿½todo 'annadirEquipo' de la clase JSON REMOTO");
+			System.out.println("Fin ejecuciï¿½n");
+			System.exit(-1);
+		}
 		return false;
 	}
 
 	@Override
 	public boolean borrarUnaPelicula(String Id) throws IOException {
-		// TODO Auto-generated method stub
+		try {
+			JSONObject objRepresentante = new JSONObject();
+			JSONObject objPeticion = new JSONObject();
+			objRepresentante.put("Id", Id);
+			objPeticion.put("representanteBorrar", objRepresentante);
+			objPeticion.put("peticion", "delete");
+			String json = objPeticion.toJSONString();
+			String url = SERVER_PATH + DELETE_ONE_PELICULA;
+			String response = encargadoPeticiones.postRequest(url, json);
+			JSONObject respuesta = (JSONObject) JSONValue.parse(response.toString());
+			if (respuesta == null) {
+				System.out.println("El json recibido no es correcto. Finaliza la ejecuciï¿½n");
+				System.exit(-1);
+			} else {
+				String estado = (String) respuesta.get("estado");
+				if (estado.equals("ok")) {
+					return true;
+				} else {
+					System.out.println("Acceso JSON REMOTO - Error al almacenar los datos");
+					System.out.println("Error: " + (String) respuesta.get("error"));
+					System.out.println("Consulta: " + (String) respuesta.get("query"));
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(
+					"Excepcion desconocida. Traza de error comentada en el mï¿½todo 'annadirEquipo' de la clase JSON REMOTO");
+			System.out.println("Fin ejecuciï¿½n");
+			System.exit(-1);
+		}
 		return false;
 	}
+
+}
 
 	@Override
 	public void escribirtodosActores(HashMap<String, Actores> lista) throws IOException {
@@ -315,7 +374,10 @@ public class JSONManager implements Intercambio {
 
 	@Override
 	public void escribirtodasPeliculas(HashMap<String, Peliculas> lista) throws IOException {
-		// TODO Auto-generated method stub
+		borrarPeliculas();
+		for (Entry<String, Peliculas> entry : lista.entrySet()) {
+			isertarPelicula(lista.get(entry.getKey()));
+		}
 
 	}
 
