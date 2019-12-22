@@ -362,7 +362,7 @@ public class JSONManager implements Intercambio {
 		return false;
 	}
 
-}
+
 
 	@Override
 	public void escribirtodosActores(HashMap<String, Actores> lista) throws IOException {
